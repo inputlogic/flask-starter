@@ -15,12 +15,14 @@ from importlib import import_module
 import os
 
 
-ENV = os.environ.get('FLASK_ENV', 'local')
+LOCAL = 'local'
+PRODUCTION = 'production'
+ENV = os.environ.get('FLASK_ENV', LOCAL)
 
 
 from .common import *
 
-if ENV == 'production':
+if ENV == PRODUCTION:
     from .production import *
-elif ENV == 'local':
+elif ENV == LOCAL:
     from .local import *
