@@ -15,8 +15,7 @@ def server_error(error):
 
 if not app.debug:
     """
-    Only render exceptions as 500 when not in local debug mode. This would otherwise the
-    Flask debug output.
+    Allow Flask debug to render exceptions when we're not in production.
 
     """
     @app.errorhandler(Exception)

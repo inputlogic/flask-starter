@@ -11,10 +11,6 @@ Quickstart
 ```
 $ virtualenv -p `which python3` env
 $ . env/bin/activate
-$(env) pip install -r requirements.txt
-$(env) pip install -r requirements.local.txt
-$(env) . setup.sh
-$(env) flask db migrate
-$(env) flask db upgrade
-$(env) flask run
+$(env) make setup
+$(env) make run
 ```
