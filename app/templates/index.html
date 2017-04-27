@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Flask Starter</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  </head>
-  <body>
-    <h1>{{ greeting }}</h1>
-    <p>Flask starter project</a>
-  </body>
-</html>
+{% extends 'layout.html' %}
+
+{% block title %}Recent Posts{% endblock %}
+
+{% block content %}
+<h1>Posts</h1>
+<ul>
+  {% if posts %}
+    {% for post in posts %}
+      <li><a href="{{ url_for('post', id=post.id) }}">{{ post.title }}</a></li>
+    {% endfor %}
+  {% else %}
+    <li><em>no posts yet :(</em></li>
+  {% endif %}
+</ul>
+{% endblock %}

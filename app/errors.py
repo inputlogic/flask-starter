@@ -13,7 +13,13 @@ def server_error(error):
     return render_template('errors/500.html'), 500
 
 
-@app.errorhandler(Exception)
-def unhandled_exception(e):
-    log.exception(e)
-    return server_error(str(e))
+if not app.debug:
+    """
+    Only render exceptions as 500 when not in local debug mode. This would otherwise the
+    Flask debug output.
+
+    """
+    @app.errorhandler(Exception)
+    def unhandled_exception(e):
+        log.exception(e)
+        return server_error(str(e))
