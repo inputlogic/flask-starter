@@ -1,20 +1,30 @@
+import logging
+
 from flask import Flask, render_template
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_sqlalchemy import SQLAlchemy
 
 import config
-from . import logger
 
 
-name = 'app'
-app = Flask(name)
+app = Flask(__name__)
 app.config.from_object(config)
 
-log = logger.get(name, config.LOG_LEVEL)
+db = SQLAlchemy(app)
+
+log = logging.getLogger(__name__)
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(logging.Formatter(config.LOG_FORMAT))
+log.addHandler(stream_handler)
+log.setLevel(config.LOG_LEVEL)
 log.info('Running in "{0}" environment'.format(config.ENV))
 
 if app.debug:
-    toolbar = DebugToolbarExtension(app)
+    DebugToolbarExtension(app)
 
 
 from . import filters
-from . import views
+from . import errors
+
+from .models import *
+from .views import *
