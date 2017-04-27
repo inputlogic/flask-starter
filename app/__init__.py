@@ -2,8 +2,8 @@ import logging
 
 from flask import Flask, render_template
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 import config
 
@@ -30,3 +30,5 @@ from . import errors
 
 from .models import *
 from .views import *
+
+from . import auth
