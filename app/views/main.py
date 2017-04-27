@@ -17,5 +17,5 @@ def post(id):
     q = q.options(
         db.joinedload(Post.author),
         db.joinedload(Post.comments))
-    q = q.get(id)
+    q = q.get_or_404(id)
     return render_template('post.html', post=q)

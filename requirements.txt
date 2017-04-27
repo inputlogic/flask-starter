@@ -1,5 +1,6 @@
 flask
 flask-login
+flask-migrate
 flask-sqlalchemy
 gunicorn
 psycopg2

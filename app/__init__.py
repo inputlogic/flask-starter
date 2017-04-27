@@ -3,6 +3,7 @@ import logging
 from flask import Flask, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 import config
 
@@ -11,6 +12,7 @@ app = Flask(__name__)
 app.config.from_object(config)
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 log = logging.getLogger(__name__)
 stream_handler = logging.StreamHandler()
