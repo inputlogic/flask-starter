@@ -6,12 +6,12 @@ This is typically used with Flask:
     app = Flask(__name__)
     app.config.from_object('config')
 
-You can also use the configs directly (in Celery for example) via regular import.
+You can also use the configs directly (in Celery for example) via regular
+import.
 
     import configs
 
 """
-from importlib import import_module
 import os
 
 

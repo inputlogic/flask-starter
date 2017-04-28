@@ -3,12 +3,14 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-{% if error %}
-  <p><strong>{{ error }}</strong></p>
+{% if form.errors %}
+  <p><strong style="color: red">Invalid login details.</strong></p>
 {% endif %}
 
 <form method="post" action="{{ url_for('login') }}">
-  <input type="text" name="email" placeholder="Email" />
+  {{ form.csrf_token }}
+  {{ form.email(placeholder="Email") }}
+  {{ form.password(placeHolder="Password" )}}
   <input type="submit" value="Login" />
 </form>
 {% endblock %}

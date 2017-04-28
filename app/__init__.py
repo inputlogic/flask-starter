@@ -26,10 +26,9 @@ if app.debug:
     DebugToolbarExtension(app)
 
 
-from . import filters
+from . import auth
 from . import errors
+from . import filters
 
 from .models import *
 from .views import *
-
-from . import auth
