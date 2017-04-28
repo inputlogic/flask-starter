@@ -1,6 +1,7 @@
+# flake8: noqa
 import logging
 
-from flask import Flask, render_template
+from flask import Flask
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy

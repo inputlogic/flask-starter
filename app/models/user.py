@@ -10,11 +10,13 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(32))
 
-    posts = db.relationship('Post',
+    posts = db.relationship(
+        'Post',
         back_populates='author',
         cascade='all, delete, delete-orphan')
 
-    comments = db.relationship('Comment',
+    comments = db.relationship(
+        'Comment',
         back_populates='author',
         cascade='all, delete, delete-orphan')
 

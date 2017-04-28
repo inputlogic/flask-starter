@@ -23,3 +23,6 @@ setup:
 
 run: clean
 	flask run
+
+quality:
+	flake8 --statistics app

@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from .. import db
 
 
@@ -14,7 +12,8 @@ class Post(db.Model):
     updated_at = db.Column(db.DateTime)
 
     author = db.relationship('User', back_populates='posts')
-    comments = db.relationship('Comment',
+    comments = db.relationship(
+        'Comment',
         back_populates='post',
         cascade='all, delete, delete-orphan')
 
