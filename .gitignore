@@ -2,5 +2,7 @@
 *.swp
 *.db
 
+migrations/versions
+
 env
 __pycache__
