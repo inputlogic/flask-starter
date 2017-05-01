@@ -24,5 +24,10 @@ setup:
 run: clean
 	flask run
 
-quality:
+test:
+	FLASK_ENV=test python -m unittest discover -s app/tests -p "test_*.py"
+
+lint:
 	flake8 --statistics app
+
+quality: test lint

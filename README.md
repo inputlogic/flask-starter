@@ -27,6 +27,28 @@ $(env) make setup
 $(env) make run
 ```
 
+Linting & Tests
+---------------
+
+Linting and tests are highly encouraged. To run them, use:
+
+```
+make quality
+```
+
+You can also run tests without linting with:
+
+```
+make test
+```
+
+And lint without testing using:
+
+```
+make lint
+```
+
+
 
 Structure
 ---------
