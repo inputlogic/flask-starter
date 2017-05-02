@@ -2,7 +2,7 @@
 *.swp
 *.db
 
-migrations/versions
+migrations/versions/*.py
 
 env
 __pycache__
