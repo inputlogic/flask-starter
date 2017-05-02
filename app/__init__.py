@@ -2,9 +2,7 @@
 import logging
 
 from flask import Flask
-from flask_debugtoolbar import DebugToolbarExtension
-from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
+from flask_mongoengine import MongoEngine
 
 import config
 
@@ -12,8 +10,7 @@ import config
 app = Flask(__name__)
 app.config.from_object(config)
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+db = MongoEngine(app)
 
 log = logging.getLogger(__name__)
 stream_handler = logging.StreamHandler()
@@ -23,6 +20,8 @@ log.setLevel(config.LOG_LEVEL)
 log.info('Running in "{0}" environment'.format(config.ENV))
 
 if app.debug:
+    from flask_debugtoolbar import DebugToolbarExtension
+    app.config['DEBUG_TB_PANELS'] = ['flask_mongoengine.panels.MongoDebugPanel']
     DebugToolbarExtension(app)
 
 

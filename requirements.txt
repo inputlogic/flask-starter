@@ -1,8 +1,6 @@
 flask
 flask-login
-flask-migrate
-flask-sqlalchemy
+flask-mongoengine
 flask-wtf
 gunicorn
 passlib
-psycopg2

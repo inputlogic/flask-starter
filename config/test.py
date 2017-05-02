@@ -8,8 +8,11 @@ DEBUG = True
 LOG_LEVEL = logging.DEBUG
 SECRET_KEY = 'test'
 
-DEBUG_TB_INTERCEPT_REDIRECTS = False
+# https://github.com/jarus/flask-testing/issues/21
+PRESERVE_CONTEXT_ON_EXCEPTION = False
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:@localhost/app_test'
-SQLALCHEMY_TRACK_MODIFICATIONS = True
-SQLALCHEMY_ECHO = False
+MONGODB_SETTINGS = {
+    'db': 'app_test',
+    'host': 'localhost',
+    'port': 27017
+}

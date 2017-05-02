@@ -6,13 +6,11 @@ from ..models.post import Post
 
 @app.route('/')
 def index():
-    return render_template('index.html', posts=Post.query.all())
+    posts = Post.objects.all()
+    return render_template('index.html', posts=posts)
 
 
-@app.route('/post/<int:id>')
+@app.route('/post/<id>')
 def post(id):
-    q = Post.query.options(
-        db.joinedload(Post.author),
-        db.joinedload(Post.comments))
-    q = q.get_or_404(id)
-    return render_template('post.html', post=q)
+    post = Post.objects.get(pk=id)
+    return render_template('post.html', post=post)

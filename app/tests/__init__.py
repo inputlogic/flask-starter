@@ -1,54 +1,45 @@
-from faker import Faker
-from factory import Sequence, SubFactory
-from factory.alchemy import SQLAlchemyModelFactory
+from factory import Faker, SubFactory
+from factory.mongoengine import MongoEngineFactory
 from flask_testing import TestCase
 
-from app import app, db
+from app import app
 from app.models.user import User
 from app.models.comment import Comment
 from app.models.post import Post
 
 
-fake = Faker()
-
-
 class BaseTestCase(TestCase):
-
     def create_app(self):
-        self.app = app
-        self.db = db
-        self.db.create_all()
-        return self.app
+        return app
 
     def tearDown(self):
-        self.db.session.remove()
-        self.db.drop_all()
+        for i in [User, Post]:
+            i.drop_collection()
 
 
-class UserFactory(SQLAlchemyModelFactory):
+class UserFactory(MongoEngineFactory):
     class Meta:
         model = User
-        sqlalchemy_session = db.session
 
-    email = Sequence(lambda n: 'user{0}'.format(n))
-    password = fake.password()
+    first_name = Faker('first_name')
+    last_name = Faker('last_name')
+    email = Faker('email')
+    password = Faker('password')
 
 
-class PostFactory(SQLAlchemyModelFactory):
+class PostFactory(MongoEngineFactory):
     class Meta:
         model = Post
-        sqlalchemy_session = db.session
 
     author = SubFactory(UserFactory)
-    title = ' '.join(fake.words()).title()
-    body = fake.paragraph()
+    title = Faker('catch_phrase')
+    body = Faker('paragraph')
 
 
-class CommentFactory(SQLAlchemyModelFactory):
+class CommentFactory(MongoEngineFactory):
     class Meta:
         model = Comment
-        sqlalchemy_session = db.session
 
     author = SubFactory(UserFactory)
     post = SubFactory(PostFactory)
-    body = fake.paragraph()
+    body = Faker('paragraph')

@@ -1,16 +1,12 @@
+from datetime import datetime
+
 from .. import db
 
 
-class Comment(db.Model):
-    __tablename__ = 'comments'
-
-    id = db.Column(db.Integer, primary_key=True)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
-    body = db.Column(db.Text)
-
-    author = db.relationship('User', back_populates='comments')
-    post = db.relationship('Post', back_populates='comments')
+class Comment(db.EmbeddedDocument):
+    body = db.StringField(required=True)
+    created_at = db.DateTimeField(default=datetime.utcnow)
+    updated_at = db.DateTimeField(default=datetime.utcnow)
 
     def __repr__(self):
-        return '<Comment {0}>'.format(self.body)
+        return '<Comment: {0}...>'.format(self.body[:25])

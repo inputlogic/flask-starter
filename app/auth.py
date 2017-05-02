@@ -11,4 +11,4 @@ lm.login_view = 'login'
 
 @lm.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    return User.objects.get(user_id)
