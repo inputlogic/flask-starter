@@ -19,9 +19,8 @@ log.addHandler(stream_handler)
 log.setLevel(config.LOG_LEVEL)
 log.info('Running in "{0}" environment'.format(config.ENV))
 
-if app.debug:
+if config.ENV == config.LOCAL:
     from flask_debugtoolbar import DebugToolbarExtension
-    app.config['DEBUG_TB_PANELS'] = ['flask_mongoengine.panels.MongoDebugPanel']
     DebugToolbarExtension(app)
 
 

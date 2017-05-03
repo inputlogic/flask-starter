@@ -15,4 +15,25 @@ class User(UserMixin, db.Document):
     updated_at = db.DateTimeField(default=datetime.utcnow)
 
     def __repr__(self):
-        return '<User: {2}>'.format(self.email)
+        return '<User: {0}>'.format(self.email)
+
+    @staticmethod
+    def hash_password(password):
+        return pbkdf2_sha256.hash(password)
+
+    @staticmethod
+    def verify_password(password, hash):
+        return pbkdf2_sha256.verify(password, hash)
+
+    @staticmethod
+    def register(email, password):
+        user = User(email=email, password=User.hash_password(password))
+        user.save()
+        return user
+
+    @staticmethod
+    def validate_login(email, password):
+        user = User.objects.get(email=email)
+        if User.verify_password(password, user.password):
+            return user
+        raise User.DoesNotExist

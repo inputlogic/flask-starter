@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}Admin | Manage Posts{% endblock %}
+
+{% block content %}
+<h1>Admin - Manage Posts</h1>
+<ul>
+  {% if posts %}
+    {% for post in posts %}
+      <li>
+        {{ post.title }}
+        <small>
+          <a href="{{ url_for('admin_edit_post', id=post.id) }}">Edit</a>
+          <a href="{{ url_for('admin_delete_post', id=post.id) }}">Delete</a>
+        </small>
+      </li>
+    {% endfor %}
+  {% else %}
+    <li><a href="{{ url_for('admin_new_post') }}">No posts, create one</a></li>
+  {% endif %}
+</ul>
+{% endblock %}

@@ -1,5 +1,7 @@
 from flask import render_template
 
+import config
+
 from . import app, log
 
 
@@ -13,11 +15,7 @@ def server_error(error):
     return render_template('errors/500.html'), 500
 
 
-if not app.debug:
-    """
-    Allow Flask debug to render exceptions when we're not in production.
-
-    """
+if config.ENV == config.PRODUCTION:
     @app.errorhandler(Exception)
     def unhandled_exception(e):
         log.exception(e)
