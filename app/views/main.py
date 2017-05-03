@@ -1,6 +1,6 @@
 from flask import render_template
 
-from .. import app, db
+from .. import app
 from ..models.post import Post
 
 

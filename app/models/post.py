@@ -9,7 +9,7 @@ class Post(db.Document):
     author = db.ReferenceField(User, reverse_delete_rule=db.CASCADE)
     title = db.StringField(max_length=80, required=True)
     body = db.StringField()
-    comments = db.ListField(db.EmbeddedDocumentField(Comment))
+    comments = db.EmbeddedDocumentListField(Comment)
     created_at = db.DateTimeField(default=datetime.utcnow)
     updated_at = db.DateTimeField(default=datetime.utcnow)
 

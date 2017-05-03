@@ -1,6 +1,6 @@
+bcrypt
 flask
 flask-login
 flask-mongoengine
 flask-wtf
 gunicorn
-passlib

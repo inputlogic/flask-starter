@@ -1,7 +1,8 @@
-from flask import render_template
-from flask_login import login_required
+from flask import render_template, flash, redirect, url_for
+from flask_login import current_user, login_required
 
 from .. import app
+from ..forms import PostForm
 from ..models.post import Post
 
 
@@ -15,7 +16,18 @@ def admin_posts():
 @app.route('/admin/new')
 @login_required
 def admin_new_post():
-    return render_template('admin/new.html')
+    form = PostForm()
+
+    if form.validate_on_submit():
+        post = Post(
+            author=current_user,
+            title=form.title.data,
+            body=form.body.data)
+        post.save()
+        flash('Post created')
+        return redirect(url_for('admin_posts'))
+
+    return render_template('admin/new.html', form=form)
 
 
 @app.route('/admin/edit/<id>')

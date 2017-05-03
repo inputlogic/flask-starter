@@ -1,7 +1,7 @@
 from datetime import datetime
 
+import bcrypt
 from flask_login import UserMixin
-from passlib.hash import pbkdf2_sha256
 
 from .. import db
 
@@ -9,7 +9,7 @@ from .. import db
 class User(UserMixin, db.Document):
     first_name = db.StringField(max_length=50)
     last_name = db.StringField(max_length=50)
-    email = db.StringField(required=True, unique=True)
+    email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
     created_at = db.DateTimeField(default=datetime.utcnow)
     updated_at = db.DateTimeField(default=datetime.utcnow)
@@ -17,13 +17,14 @@ class User(UserMixin, db.Document):
     def __repr__(self):
         return '<User: {0}>'.format(self.email)
 
-    @staticmethod
-    def hash_password(password):
-        return pbkdf2_sha256.hash(password)
+    def verify_password(self, password):
+        return bcrypt.checkpw(
+            password.encode('utf-8'),
+            self.password.encode('utf-8'))
 
     @staticmethod
-    def verify_password(password, hash):
-        return pbkdf2_sha256.verify(password, hash)
+    def hash_password(password):
+        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     @staticmethod
     def register(email, password):
@@ -34,6 +35,6 @@ class User(UserMixin, db.Document):
     @staticmethod
     def validate_login(email, password):
         user = User.objects.get(email=email)
-        if User.verify_password(password, user.password):
+        if user.verify_password(password):
             return user
         raise User.DoesNotExist

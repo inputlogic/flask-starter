@@ -1,7 +1,7 @@
 from flask import redirect, render_template, url_for
 from flask_login import login_user, login_required, logout_user
 
-from .. import app, db, log
+from .. import app, db
 from ..forms import UserForm
 from ..models.user import User
 
@@ -12,7 +12,9 @@ def register():
 
     if form.validate_on_submit():
         try:
-            user = User.register(email=form.email.data, password=form.password.data)
+            user = User.register(
+                email=form.email.data,
+                password=form.password.data)
             login_user(user)
             return redirect(url_for('admin_posts'))
         except db.NotUniqueError:
@@ -27,7 +29,9 @@ def login():
 
     if form.validate_on_submit():
         try:
-            user = User.validate_login(email=form.email.data, password=form.password.data)
+            user = User.validate_login(
+                email=form.email.data,
+                password=form.password.data)
             login_user(user)
             return redirect(url_for('admin_posts'))
         except User.DoesNotExist:
