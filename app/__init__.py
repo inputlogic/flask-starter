@@ -25,7 +25,7 @@ def create_app():
 
 def load_models(app):
     """
-    Dynamicaly load models specified in the `MODELS` config array.
+    Dynamicaly load models specified in the `MODELS` config tuple.
 
     """
     from .models import db
@@ -37,12 +37,38 @@ def load_models(app):
 
 def load_blueprints(app):
     """
-    Dynamicaly load view blueprints specified in the `BLUEPRINTS` config array.
+    Dynamicaly load view blueprints specified in the `BLUEPRINTS` config tuple.
+
+    String values are assumed to be the name of a module to import. For more
+    advanced Blueprint loading, you can specify a dict.
+
+    Example:
+
+        BLUEPRINTS = (
+            'basic',
+            {
+                name: 'advanced',
+                url_prefix: '/advanced'
+            }
+        )
+
+    In the above example, the "basic" Blueprint will be loaded with no
+    additional settings. The second example will load the "advanced" Blueprint
+    with the `url_prefix` set to "/advanced".
+
+    All `Blueprint` kwargs are supported in the advanced version.
 
     """
-    for name in config.BLUEPRINTS:
+    for blueprint in config.BLUEPRINTS:
+        if isinstance(blueprint, str):
+            name = blueprint
+            kwargs = {}
+        else:
+            name = blueprint.pop('name')
+            kwargs = blueprint
+
         view = importlib.import_module('app.views.{0}'.format(name))
-        app.register_blueprint(view.bp)
+        app.register_blueprint(view.bp, **kwargs)
 
 
 def load_errorhandlers(app):

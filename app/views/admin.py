@@ -8,14 +8,14 @@ from ..models.post import Post
 bp = Blueprint('admin', __name__)
 
 
-@bp.route('/admin')
+@bp.route('')
 @login_required
 def posts():
     posts = Post.objects.all()
     return render_template('admin/index.html', posts=posts)
 
 
-@bp.route('/admin/new')
+@bp.route('/new')
 @login_required
 def new_post():
     form = PostForm()
@@ -32,13 +32,13 @@ def new_post():
     return render_template('admin/new.html', form=form)
 
 
-@bp.route('/admin/edit/<id>')
+@bp.route('/edit/<id>')
 @login_required
 def edit_post(id):
     return render_template('admin/edit.html')
 
 
-@bp.route('/admin/delete/<id>')
+@bp.route('/delete/<id>')
 @login_required
 def delete_post(id):
     return render_template('admin/delete.html')
