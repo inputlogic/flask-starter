@@ -1,22 +1,19 @@
 from flask import render_template
 
-import config
-
-from . import app, log
+from . import logger
 
 
-@app.errorhandler(404)
+log = logger.create(__name__)
+
+
 def not_found(error):
     return render_template('errors/404.html'), 404
 
 
-@app.errorhandler(500)
 def server_error(error):
     return render_template('errors/500.html'), 500
 
 
-if config.ENV == config.PRODUCTION:
-    @app.errorhandler(Exception)
-    def unhandled_exception(e):
-        log.exception(e)
-        return server_error(str(e))
+def unhandled_exception(e):
+    log.exception(e)
+    return server_error(str(e))

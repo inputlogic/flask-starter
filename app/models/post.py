@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from .. import db
+from . import db
 from .user import User
 from .comment import Comment
 

@@ -2,7 +2,7 @@ from factory import Faker, SubFactory
 from factory.mongoengine import MongoEngineFactory
 from flask_testing import TestCase
 
-from app import app
+import app
 from app.models.user import User
 from app.models.comment import Comment
 from app.models.post import Post
@@ -10,7 +10,7 @@ from app.models.post import Post
 
 class BaseTestCase(TestCase):
     def create_app(self):
-        return app
+        return app.create_app()
 
     def tearDown(self):
         for i in [User, Post]:

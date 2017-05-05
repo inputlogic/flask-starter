@@ -1,12 +1,15 @@
-from flask import redirect, render_template, url_for
+from flask import Blueprint, redirect, render_template, url_for
 from flask_login import login_user, login_required, logout_user
 
-from .. import app, db
 from ..forms import UserForm
+from ..models import db
 from ..models.user import User
 
 
-@app.route('/register', methods=['GET', 'POST'])
+bp = Blueprint('user', __name__)
+
+
+@bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = UserForm()
 
@@ -16,14 +19,14 @@ def register():
                 email=form.email.data,
                 password=form.password.data)
             login_user(user)
-            return redirect(url_for('admin_posts'))
+            return redirect(url_for('admin.posts'))
         except db.NotUniqueError:
             form._errors = True
 
     return render_template('register.html', form=form)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = UserForm()
 
@@ -33,15 +36,15 @@ def login():
                 email=form.email.data,
                 password=form.password.data)
             login_user(user)
-            return redirect(url_for('admin_posts'))
+            return redirect(url_for('admin.posts'))
         except User.DoesNotExist:
             form._errors = True
 
     return render_template('login.html', form=form)
 
 
-@app.route('/logout')
+@bp.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('user.login'))

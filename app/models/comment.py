@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from .. import db
+from . import db
 
 
 class Comment(db.EmbeddedDocument):

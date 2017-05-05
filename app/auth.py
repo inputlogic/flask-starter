@@ -1,12 +1,10 @@
 from flask_login import LoginManager
 
-from . import app
 from .models.user import User
 
 
-lm = LoginManager(app)
-lm.init_app(app)
-lm.login_view = 'login'
+lm = LoginManager()
+lm.login_view = 'user.login'
 
 
 @lm.user_loader

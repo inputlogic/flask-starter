@@ -1,6 +1,6 @@
-from app import db
-from app.tests import BaseTestCase, UserFactory
+from app.models import db
 from app.models.user import User
+from app.tests import BaseTestCase, UserFactory
 
 
 class TestUserModel(BaseTestCase):

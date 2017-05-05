@@ -1,1 +1,3 @@
-__all__ = ['user', 'post', 'comment']
+from flask_mongoengine import MongoEngine
+
+db = MongoEngine()

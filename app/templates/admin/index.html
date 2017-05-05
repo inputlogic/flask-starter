@@ -10,13 +10,13 @@
       <li>
         {{ post.title }}
         <small>
-          <a href="{{ url_for('admin_edit_post', id=post.id) }}">Edit</a>
-          <a href="{{ url_for('admin_delete_post', id=post.id) }}">Delete</a>
+          <a href="{{ url_for('admin.edit_post', id=post.id) }}">Edit</a>
+          <a href="{{ url_for('admin.delete_post', id=post.id) }}">Delete</a>
         </small>
       </li>
     {% endfor %}
   {% else %}
-    <li><a href="{{ url_for('admin_new_post') }}">No posts, create one</a></li>
+    <li><a href="{{ url_for('admin.new_post') }}">No posts, create one</a></li>
   {% endif %}
 </ul>
 {% endblock %}

@@ -7,7 +7,7 @@
   <p><strong style="color: red">Oops, missing some fields.</strong></p>
 {% endif %}
 
-<form method="post" action="{{ url_for('register') }}">
+<form method="post" action="{{ url_for('user.register') }}">
   {{ form.csrf_token }}
   {{ form.email(placeholder="Email") }}
   {{ form.password(placeHolder="Password" )}}

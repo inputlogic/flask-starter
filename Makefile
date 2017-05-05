@@ -1,6 +1,6 @@
 export FLASK_DEBUG=1
 export FLASK_ENV=local
-export FLASK_APP=app/__init__.py
+export FLASK_APP=run.py
 
 clean:
 	find app -iname '*.pyc' -exec rm {} \;
