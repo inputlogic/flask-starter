@@ -28,9 +28,6 @@ def load_models(app):
     Dynamicaly load models specified in the `MODELS` config tuple.
 
     """
-    from .models import db
-    db.init_app(app)
-
     for name in config.MODELS:
         importlib.import_module('app.models.{0}'.format(name))
 

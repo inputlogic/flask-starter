@@ -1,17 +1,43 @@
-from datetime import datetime
-
-from . import db
-from .user import User
-from .comment import Comment
+from . import connect, register
 
 
-class Post(db.Document):
-    author = db.ReferenceField(User, reverse_delete_rule=db.CASCADE)
-    title = db.StringField(max_length=80, required=True)
-    body = db.StringField()
-    comments = db.EmbeddedDocumentListField(Comment)
-    created_at = db.DateTimeField(default=datetime.utcnow)
-    updated_at = db.DateTimeField(default=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Post: {0}>'.format(self.title)
+collection = 'posts'
+db = connect(collection)
+schema = register(collection, {
+    'author': {
+        'type': 'objectid',
+        'required': True
+    },
+    'title': {
+        'type': 'string',
+        'required': True
+    },
+    'body': {
+        'type': 'string'
+    },
+    'comments': {
+        'type': 'list',
+        'schema': {
+            'body': {
+                'type': 'string',
+                'required': True
+            },
+            'created_at': {
+                'type': 'datetime',
+                'default_setter': 'utcnow'
+            },
+            'updated_at': {
+                'type': 'datetime',
+                'default_setter': 'utcnow'
+            }
+        }
+    },
+    'created_at': {
+        'type': 'datetime',
+        'default_setter': 'utcnow'
+    },
+    'updated_at': {
+        'type': 'datetime',
+        'default_setter': 'utcnow'
+    }
+})
