@@ -21,7 +21,7 @@ def new_post():
     form = PostForm()
 
     if form.validate_on_submit():
-        post = post_most.create(
+        post = post_model.insert(
             author=current_user,
             title=form.title.data,
             body=form.body.data)

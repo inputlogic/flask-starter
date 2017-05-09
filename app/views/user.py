@@ -13,14 +13,15 @@ def register():
     form = UserForm()
 
     if form.validate_on_submit():
-        try:
-            user = user_model.register(
-                email=form.email.data,
-                password=form.password.data)
+        user = user_model.register(
+            email=form.email.data,
+            password=form.password.data)
+
+        if user:
             login_user(user)
             return redirect(url_for('admin.posts'))
-        except db.NotUniqueError:
-            form._errors = True
+
+        form._errors = True
 
     return render_template('register.html', form=form)
 
@@ -30,14 +31,15 @@ def login():
     form = UserForm()
 
     if form.validate_on_submit():
-        try:
-            user = User.validate_login(
-                email=form.email.data,
-                password=form.password.data)
+        user = user_model.validate_login(
+            email=form.email.data,
+            password=form.password.data)
+
+        if user:
             login_user(user)
             return redirect(url_for('admin.posts'))
-        except User.DoesNotExist:
-            form._errors = True
+
+        form._errors = True
 
     return render_template('login.html', form=form)
 
