@@ -61,8 +61,9 @@ def load_blueprints(app):
             name = blueprint
             kwargs = {}
         else:
-            name = blueprint.pop('name')
-            kwargs = blueprint
+            args = blueprint.copy()
+            name = args.pop('name')
+            kwargs = args
 
         view = importlib.import_module('app.views.{0}'.format(name))
         app.register_blueprint(view.bp, **kwargs)

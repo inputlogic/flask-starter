@@ -3,29 +3,35 @@ from app.tests import BaseTestCase, user_factory
 
 
 class TestUserModel(BaseTestCase):
-    # def test_emails_must_be_unique(self):
-    #     with self.assertRaises(db.NotUniqueError):
-    #         for i in range(2):
-    #             UserFactory.create(email='duplicate@localhost.local')
+    def test_emails_must_be_unique(self):
+        email = 'duplicate@localhost.local'
+        user1 = user_model.register(email=email, password='user1')
+        user2 = user_model.register(email=email, password='user2')
 
-    def test_registration(self):
+        self.assertIsNotNone(user1)
+        self.assertIsNone(user2)
+        self.assertEqual(
+            user_model.schema.errors,
+            {'email': ['Email address must be unique']})
+
+    def test_valid_registration_returns_user_id(self):
         profile = user_factory()
-        user = user_model.register(
+        user_id = user_model.register(
             email=profile['email'],
             password=profile['password'])
 
-        self.assertIsNotNone(user)
+        self.assertIsNotNone(user_id)
+
+        user = user_model.get_by_id(user_id)
         self.assertTrue(user_model.verify_password(
             profile['password'],
             user['password']))
 
-    # def test_valid_login_returns_user(self):
-    #     password = 'test'
-    #     hashed_password = User.hash_password(password)
-    #     new_user = UserFactory.create(password=hashed_password)
-    #     logged_in_user = User.validate_login(new_user.email, password)
-    #     self.assertEqual(new_user.pk, logged_in_user.pk)
-    #
-    # def test_invalid_login_raises_error(self):
-    #     with self.assertRaises(User.DoesNotExist):
-    #         User.validate_login('invalid@localhost.local', 'nopesauce')
+    def test_valid_login_returns_user(self):
+        profile = user_factory()
+        user_id = user_model.register(
+            email=profile['email'],
+            password=profile['password'])
+
+        user = user_model.validate_login(profile['email'], profile['password'])
+        self.assertEqual(user_id, user['_id'])

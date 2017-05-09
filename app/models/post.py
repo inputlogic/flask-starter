@@ -46,7 +46,7 @@ schema = register_schema(collection, {
 
 
 def get_all():
-    return db.find_all()
+    return list(db.find())
 
 
 def get_by_id(id):

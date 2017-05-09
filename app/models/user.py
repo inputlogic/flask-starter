@@ -4,12 +4,15 @@ import bcrypt
 from . import connect, register_schema
 
 
-def _validate_unique_email(field, value, error):
-    pass
-
-
 collection = 'users'
 db = connect(collection)
+
+
+def _validate_unique_email(field, value, error):
+    if db.find_one({'email': value.lower().strip()}):
+        error(field, 'Email address must be unique')
+
+
 schema = register_schema(collection, {
     'first_name': {
         'type': 'string'
@@ -51,13 +54,13 @@ def hash_password(password):
 
 def register(email, password):
     if schema.validate({'email': email, 'password': hash_password(password)}):
-        return db.insert_one(schema.document)
+        return db.insert_one(schema.document).inserted_id
     return None
 
 
 def validate_login(email, password):
     user = db.find_one({'email': email})
-    if user and verify_password(password, user.password):
+    if user and verify_password(password, user['password']):
         return user
     return None
 

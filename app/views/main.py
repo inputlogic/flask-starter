@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
 
 from ..models import post as post_model
+from ..models import user as user_model
 
 
 bp = Blueprint('main', __name__)
@@ -15,4 +16,5 @@ def index():
 @bp.route('/post/<id>')
 def post(id):
     post = post_model.get_by_id(id)
-    return render_template('post.html', post=post)
+    author = user_model.get_by_id(post['author'])
+    return render_template('post.html', post=post, author=author)
