@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import current_user, login_required
 
 from ..forms import PostForm
-from ..models.post import Post
+from ..models import post as post_model
 
 
 bp = Blueprint('admin', __name__)
@@ -11,7 +11,7 @@ bp = Blueprint('admin', __name__)
 @bp.route('')
 @login_required
 def posts():
-    posts = Post.objects.all()
+    posts = post_model.get_all()
     return render_template('admin/index.html', posts=posts)
 
 
@@ -21,7 +21,7 @@ def new_post():
     form = PostForm()
 
     if form.validate_on_submit():
-        post = Post(
+        post = post_most.create(
             author=current_user,
             title=form.title.data,
             body=form.body.data)

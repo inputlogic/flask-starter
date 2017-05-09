@@ -1,9 +1,11 @@
-from . import connect, register
+from bson.objectid import ObjectId
+
+from . import connect, register_schema
 
 
 collection = 'posts'
 db = connect(collection)
-schema = register(collection, {
+schema = register_schema(collection, {
     'author': {
         'type': 'objectid',
         'required': True
@@ -41,3 +43,11 @@ schema = register(collection, {
         'default_setter': 'utcnow'
     }
 })
+
+
+def get_all():
+    return db.find_all()
+
+
+def get_by_id(id):
+    return db.find_one(ObjectId(str(id)))

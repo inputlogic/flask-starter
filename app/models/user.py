@@ -1,6 +1,7 @@
+from bson.objectid import ObjectId
 import bcrypt
 
-from . import connect, register
+from . import connect, register_schema
 
 
 def _validate_unique_email(field, value, error):
@@ -9,7 +10,7 @@ def _validate_unique_email(field, value, error):
 
 collection = 'users'
 db = connect(collection)
-schema = register(collection, {
+schema = register_schema(collection, {
     'first_name': {
         'type': 'string'
     },
@@ -37,18 +38,21 @@ schema = register(collection, {
 })
 
 
-def verify_password(self, password, hash):
+def verify_password(password, hash):
     return bcrypt.checkpw(
         password.encode('utf-8'),
         hash.encode('utf-8'))
 
 
 def hash_password(password):
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    return str(hash, 'utf-8')
 
 
 def register(email, password):
-    return db.insert_one(email=email, password=hash_password(password))
+    if schema.validate({'email': email, 'password': hash_password(password)}):
+        return db.insert_one(schema.document)
+    return None
 
 
 def validate_login(email, password):
@@ -56,3 +60,7 @@ def validate_login(email, password):
     if user and verify_password(password, user.password):
         return user
     return None
+
+
+def get_by_id(id):
+    return db.find_one(ObjectId(str(id)))

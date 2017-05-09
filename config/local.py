@@ -17,8 +17,6 @@ DEBUG_TB_PANELS = [
     'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel'
 ]
 
-MONGODB_SETTINGS = {
-    'db': 'app',
-    'host': 'localhost',
-    'port': 27017
-}
+MONGODB_NAME = 'app'
+MONGODB_HOST = 'localhost'
+MONGODB_PORT = 27017

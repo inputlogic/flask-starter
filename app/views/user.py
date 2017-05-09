@@ -2,8 +2,7 @@ from flask import Blueprint, redirect, render_template, url_for
 from flask_login import login_user, login_required, logout_user
 
 from ..forms import UserForm
-from ..models import db
-from ..models.user import User
+from ..models import user as user_model
 
 
 bp = Blueprint('user', __name__)
@@ -15,7 +14,7 @@ def register():
 
     if form.validate_on_submit():
         try:
-            user = User.register(
+            user = user_model.register(
                 email=form.email.data,
                 password=form.password.data)
             login_user(user)

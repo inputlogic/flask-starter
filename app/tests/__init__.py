@@ -1,11 +1,12 @@
-from factory import Faker, SubFactory
-from factory.mongoengine import MongoEngineFactory
+from datetime import datetime
+import importlib
+
+from faker import Faker
 from flask_testing import TestCase
 
+import config
 import app
-from app.models.user import User
-from app.models.comment import Comment
-from app.models.post import Post
+from app.models import connect
 
 
 class BaseTestCase(TestCase):
@@ -13,33 +14,37 @@ class BaseTestCase(TestCase):
         return app.create_app()
 
     def tearDown(self):
-        for i in [User, Post]:
-            i.drop_collection()
+        db = connect()
+        for name in config.MODELS:
+            model = importlib.import_module('app.models.{0}'.format(name))
+            db.drop_collection(model.collection)
 
 
-class UserFactory(MongoEngineFactory):
-    class Meta:
-        model = User
-
-    first_name = Faker('first_name')
-    last_name = Faker('last_name')
-    email = Faker('email')
-    password = Faker('password')
-
-
-class PostFactory(MongoEngineFactory):
-    class Meta:
-        model = Post
-
-    author = SubFactory(UserFactory)
-    title = Faker('catch_phrase')
-    body = Faker('paragraph')
+def user_factory():
+    fake = Faker()
+    return {
+        'first_name': fake.first_name(),
+        'last_name': fake.last_name(),
+        'email': fake.email(),
+        'password': fake.password(),
+        'created_at': fake.date_time(),
+        'updated_at': fake.date_time()
+    }
 
 
-class CommentFactory(MongoEngineFactory):
-    class Meta:
-        model = Comment
-
-    author = SubFactory(UserFactory)
-    post = SubFactory(PostFactory)
-    body = Faker('paragraph')
+# class PostFactory(MongoEngineFactory):
+#     class Meta:
+#         model = Post
+#
+#     author = SubFactory(UserFactory)
+#     title = Faker('catch_phrase')
+#     body = Faker('paragraph')
+#
+#
+# class CommentFactory(MongoEngineFactory):
+#     class Meta:
+#         model = Comment
+#
+#     author = SubFactory(UserFactory)
+#     post = SubFactory(PostFactory)
+#     body = Faker('paragraph')

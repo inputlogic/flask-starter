@@ -2,7 +2,7 @@
 LOG_FORMAT = '%(message)s [%(pathname)s:%(lineno)d]'
 
 # Models to be loaded, in the order specified
-MODELS = ('user', 'post', 'comment')
+MODELS = ('user', 'post')
 
 # View blueprints to be loaded, in the order specified
 # See `load_blueprints` in `app/__init__.py` for more details

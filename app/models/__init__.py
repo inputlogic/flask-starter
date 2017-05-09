@@ -2,6 +2,9 @@ import re
 from datetime import datetime
 
 from cerberus import schema_registry, Validator
+from pymongo import MongoClient
+
+import config
 
 
 registry = schema_registry
@@ -24,10 +27,16 @@ def connect(collection=None):
     specific collection.
 
     """
-    return None
+    if not hasattr(connect, 'client'):
+        connect.client = MongoClient(
+            host=config.MONGODB_HOST,
+            port=config.MONGODB_PORT)
+        connect.db = connect.client.get_database(config.MONGODB_NAME)
+
+    return connect.db[collection] if collection else connect.db
 
 
-def register(name, fields):
+def register_schema(name, fields):
     """
     Register `fields` to `name` as a schema for `ModelValidator`.
 
