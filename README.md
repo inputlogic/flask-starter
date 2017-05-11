@@ -1,22 +1,25 @@
 Flask Starter
 =============
-
 This is meant to be a quick jumping point for starting new Flask projects. You
 should be able to fork the repo, make a few changes and be ready for deployment
 to Heroku within a few minutes.
 
-
 Specifics
 ---------
-
 - Python 3.6.x
 - Flask 0.12
 - MongoDB 3.x
 
+Extensions Used
+---------------
+- [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
+- [Flask-MongoEngine](http://docs.mongoengine.org/projects/flask-mongoengine/en/latest/)
+- [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/)
+- [Flask-DebugToolbar](https://flask-debugtoolbar.readthedocs.io/en/latest/) **(Dev only)**
+- [Flask-Testing](https://pythonhosted.org/Flask-Testing/) **(Dev only)**
 
 Quickstart
 ----------
-
 Ensure you have MongoDB installed. On Mac, thats super easy with Homebrew:
 
 ```
@@ -34,7 +37,6 @@ $(env) make run
 
 Linting & Tests
 ---------------
-
 Linting and tests are highly encouraged. To run them, use:
 
 ```
@@ -53,20 +55,19 @@ And lint without testing using:
 make lint
 ```
 
-
-
 Structure
 ---------
-
 - `app/` Flask project root
+- `app/forms/` Form definitions for WTForm
+- `app/libs/` General helper modules
+- `app/libs/auth.py` Authentication settings for Flask-Login extension
+- `app/libs/filters.py` Custom filters for Jinja templates
 - `app/models/` MongoEngine models
 - `app/static/` Static assets such as CSS, JS etc.
 - `app/templates/` Jinja HTML templates
-- `app/views/` Views (routes)
+- `app/views/` Flask Blueprints (routes)
+- `app/views/errors.py` Flask error handlers for 404, 500 and exceptions
 - `app/__init__.py` Flask app entry point
-- `app/auth.py` Authentication settings for Flask-Login extension
-- `app/errors.py` Flask error handlers for 404, 500 and exceptions
-- `app/filters.py` Custom filters for Jinja templates
 - `config/` All configs here
 - `config/common.py` Configs to be used across all environments
 - `config/local.py` Configs specific to local development
