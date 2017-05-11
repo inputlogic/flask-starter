@@ -1,16 +1,18 @@
 {% extends 'layout.html' %}
-
 {% block title %}Recent Posts{% endblock %}
-
 {% block content %}
-<h1>Posts</h1>
-<ul>
-  {% if posts %}
-    {% for post in posts %}
-      <li><a href="{{ url_for('main.post', id=post.id) }}">{{ post.title }}</a></li>
-    {% endfor %}
-  {% else %}
-    <li><em>no posts yet :(</em></li>
-  {% endif %}
-</ul>
+
+<div class="row">
+  <div class="col-lg-12">
+    {% if posts %}
+      {% for post in posts %}
+        <h2><a href="{{ url_for('main.post', id=post.id) }}">{{ post.title }}</a></h2>
+        <p>{{ post.body }}</p>
+      {% endfor %}
+    {% else %}
+      <p>You don't have any posts yet! <a href="#">Login</a> and create some!</p>
+    {% endif %}
+  </div>
+</div>
+
 {% endblock %}

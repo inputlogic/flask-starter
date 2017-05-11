@@ -1,12 +1,14 @@
-from flask import Blueprint, redirect, render_template, url_for
+from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import login_user, login_required, logout_user
 
+from .. import create_logger
 from ..forms.user import UserForm
 from ..models import db
 from ..models.user import User
 
 
 bp = Blueprint('user', __name__)
+log = create_logger(__name__)
 
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -21,7 +23,7 @@ def register():
             login_user(user)
             return redirect(url_for('admin.posts'))
         except db.NotUniqueError:
-            form._errors = True
+            form.email.errors.append('Email already in use')
 
     return render_template('register.html', form=form)
 
@@ -38,7 +40,7 @@ def login():
             login_user(user)
             return redirect(url_for('admin.posts'))
         except User.DoesNotExist:
-            form._errors = True
+            flash('Invalid login details', 'error')
 
     return render_template('login.html', form=form)
 

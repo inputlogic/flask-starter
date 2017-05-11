@@ -1,16 +1,28 @@
 {% extends 'layout.html' %}
-
 {% block title %}Login{% endblock %}
-
 {% block content %}
-{% if form.errors %}
-  <p><strong style="color: red">Invalid login details.</strong></p>
-{% endif %}
 
-<form method="post" action="{{ url_for('user.login') }}">
-  {{ form.csrf_token }}
-  {{ form.email(placeholder="Email") }}
-  {{ form.password(placeHolder="Password" )}}
-  <input type="submit" value="Login" />
-</form>
+<div class="row">
+  <div class="col-lg-offset-3 col-lg-6">
+    <form method="post" action="{{ url_for('user.login') }}">
+      {{ form.csrf_token }}
+      <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+        {{ form.email(class="form-control", placeholder="Email") }}
+        {% for error in form.email.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+        {{ form.password(class="form-control", placeHolder="Password") }}
+        {% for error in form.password.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 {% endblock %}

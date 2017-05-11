@@ -14,6 +14,7 @@ class UserFactory(MongoEngineFactory):
     last_name = Faker('last_name')
     email = Faker('email')
     password = Faker('password')
+    is_admin = Faker('boolean')
 
 
 class PostFactory(MongoEngineFactory):
