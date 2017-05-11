@@ -7,7 +7,7 @@
 <ul>
   {% if posts %}
     {% for post in posts %}
-      <li><a href="{{ url_for('main.post', id=post._id) }}">{{ post.title }}</a></li>
+      <li><a href="{{ url_for('main.post', id=post.id) }}">{{ post.title }}</a></li>
     {% endfor %}
   {% else %}
     <li><em>no posts yet :(</em></li>

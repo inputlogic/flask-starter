@@ -3,7 +3,7 @@ LOGGER_NAME = None
 LOGGER_HANDLER_POLICY = 'never'
 
 # Default log format used for `create_logger`
-DEFAULT_LOG_FORMAT = '[%(asctime)s] %(levelname)s %(message)s (%(filename)s:%(lineno)d)'
+DEFAULT_LOG_FORMAT = '[%(asctime)s] %(levelname)s %(message)s (%(pathname)s:%(lineno)d)'
 
 # Default log format used for request logs
 REQUEST_LOG_FORMAT = '[%(asctime)s] %(message)s'

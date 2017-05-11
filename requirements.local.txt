@@ -1,3 +1,4 @@
+factory_boy
 faker
 flake8
 flask-debugtoolbar

@@ -64,6 +64,9 @@ def load_models(app):
     Dynamicaly load models specified in the `MODELS` config tuple.
 
     """
+    from .models import db
+    db.init_app(app)
+
     for name in config.MODELS:
         importlib.import_module('app.models.{0}'.format(name))
 
@@ -110,7 +113,7 @@ def load_errorhandlers(app):
     Load view error handlers for 404, 500 and uncaught exceptions.
 
     """
-    from .errors import not_found, server_error, unhandled_exception
+    from .views.errors import not_found, server_error, unhandled_exception
     app.errorhandler(404)(not_found)
     app.errorhandler(500)(server_error)
 
@@ -124,7 +127,7 @@ def load_utils(app):
     Load misc utils and Flask extensions.
 
     """
-    from .auth import lm
+    from .libs.auth import lm
     lm.init_app(app)
 
     if config.ENV == config.LOCAL:

@@ -5,8 +5,8 @@
 {% block content %}
 <form method="post" action="{{ url_for('user.login') }}">
   {{ form.csrf_token }}
-  {{ form.email(placeholder="Email") }}
-  {{ form.password(placeHolder="Password" )}}
-  <input type="submit" value="Login" />
+  {{ form.title }}
+  {{ form.body }}
+  <input type="submit" value="Create Post" />
 </form>
 {% endblock %}

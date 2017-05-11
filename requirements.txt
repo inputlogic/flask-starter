@@ -1,7 +1,6 @@
 bcrypt
-cerberus
 flask
 flask-login
+flask-mongoengine
 flask-wtf
 gunicorn
-pymongo

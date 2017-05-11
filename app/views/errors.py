@@ -1,6 +1,6 @@
 from flask import render_template
 
-from . import create_logger
+from .. import create_logger
 
 
 log = create_logger(__name__)

@@ -1,14 +1,12 @@
 from flask import Blueprint, redirect, render_template, url_for
 from flask_login import login_user, login_required, logout_user
 
-from .. import create_logger
-from ..forms import UserForm
-from ..models import user as user_model
-from ..models.errors import ValidationError
+from ..forms.user import UserForm
+from ..models import db
+from ..models.user import User
 
 
 bp = Blueprint('user', __name__)
-log = create_logger(__name__)
 
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -17,15 +15,12 @@ def register():
 
     if form.validate_on_submit():
         try:
-            user = user_model.register(
+            user = User.register(
                 email=form.email.data,
                 password=form.password.data)
-
             login_user(user)
             return redirect(url_for('admin.posts'))
-
-        except ValidationError as e:
-            log.debug(e.errors)
+        except db.NotUniqueError:
             form._errors = True
 
     return render_template('register.html', form=form)
@@ -36,15 +31,14 @@ def login():
     form = UserForm()
 
     if form.validate_on_submit():
-        user = user_model.validate_login(
-            email=form.email.data,
-            password=form.password.data)
-
-        if user:
+        try:
+            user = User.validate_login(
+                email=form.email.data,
+                password=form.password.data)
             login_user(user)
             return redirect(url_for('admin.posts'))
-
-        form._errors = True
+        except User.DoesNotExist:
+            form._errors = True
 
     return render_template('login.html', form=form)
 
