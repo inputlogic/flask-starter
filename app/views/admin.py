@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request
+from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import current_user, login_required
 
 from ..forms.post import PostForm
@@ -42,8 +42,8 @@ def edit_post(id):
     form = PostForm(obj=post)
 
     if form.validate_on_submit():
-        post.title=form.title.data
-        post.body=form.body.data
+        post.title = form.title.data
+        post.body = form.body.data
         post.save()
         flash('Post updated', 'success')
         return redirect(url_for('admin.posts'))
