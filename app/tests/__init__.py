@@ -4,8 +4,8 @@ import random
 from faker import Faker
 from flask_testing import TestCase
 
-import config
 import app
+import config
 from app.models import connect
 from app.models import user as user_model
 from app.models import post as post_model

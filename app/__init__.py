@@ -1,26 +1,62 @@
 import importlib
+import logging
 
-from flask import Flask
+from flask import Flask, request
 
 import config
-from . import logger
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
 
-    # Avoid repetitive logging when in test mode
-    if not app.config['TESTING']:
-        log = logger.create(__name__)
-        log.info('Running in "{0}" environment'.format(config.ENV))
-
+    setup_logging(app)
     load_models(app)
     load_blueprints(app)
     load_errorhandlers(app)
     load_utils(app)
 
     return app
+
+
+def create_logger(name, format=None):
+    log = logging.getLogger(name)
+    log.setLevel(config.LOG_LEVEL)
+    log.propagate = False
+
+    log_format = format or config.DEFAULT_LOG_FORMAT
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(logging.Formatter(log_format))
+    log.addHandler(stream_handler)
+
+    return log
+
+
+def setup_logging(app):
+    # Quite down Flask/Werkzeug
+    logging.getLogger('werkzeug').disabled = True
+    app.logger.disabled = True
+
+    # Avoid repetitive logging when in test mode
+    if not app.config['TESTING']:
+        log = create_logger(__name__, format=config.REQUEST_LOG_FORMAT)
+        log.info('Running in "{0}" environment'.format(config.ENV))
+
+        # Log our own HTTP requests
+        @app.before_request
+        def log_request():
+            for i in config.LOG_REQUESTS_IGNORE:
+                if request.path.startswith(i):
+                    return
+            log.info('{0} {1}'.format(request.method, request.path))
+
+        if config.LOG_RESPONSE_STATUS:
+            @app.after_request
+            def log_response(response):
+                log.info('{0} ({1})'.format(
+                    response.status,
+                    response.mimetype))
+                return response
 
 
 def load_models(app):

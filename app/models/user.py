@@ -1,7 +1,10 @@
+from bson.errors import InvalidId
 from bson.objectid import ObjectId
+
 import bcrypt
 
 from . import connect, register_schema
+from .errors import NotFoundError, ValidationError
 
 
 collection = 'users'
@@ -41,6 +44,16 @@ schema = register_schema(collection, {
 })
 
 
+def get_by_id(id):
+    try:
+        user = db.find_one(ObjectId(str(id)))
+        if user:
+            return user
+    except InvalidId:
+        pass
+    raise NotFoundError
+
+
 def verify_password(password, hash):
     return bcrypt.checkpw(
         password.encode('utf-8'),
@@ -55,15 +68,11 @@ def hash_password(password):
 def register(email, password):
     if schema.validate({'email': email, 'password': hash_password(password)}):
         return db.insert_one(schema.document).inserted_id
-    return None
+    raise ValidationError(schema.errors)
 
 
 def validate_login(email, password):
     user = db.find_one({'email': email})
     if user and verify_password(password, user['password']):
         return user
-    return None
-
-
-def get_by_id(id):
-    return db.find_one(ObjectId(str(id)))
+    raise NotFoundError

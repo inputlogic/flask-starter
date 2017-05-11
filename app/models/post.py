@@ -1,6 +1,8 @@
+from bson.errors import InvalidId
 from bson.objectid import ObjectId
 
 from . import connect, register_schema
+from .errors import NotFoundError
 
 
 collection = 'posts'
@@ -46,8 +48,15 @@ schema = register_schema(collection, {
 
 
 def get_all():
-    return list(db.find())
+    return db.find()
 
 
 def get_by_id(id):
-    return db.find_one(ObjectId(str(id)))
+    try:
+        post = db.find_one(ObjectId(str(id)))
+        if post:
+            return post
+    except InvalidId:
+        pass
+
+    raise NotFoundError

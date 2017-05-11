@@ -1,9 +1,9 @@
 from flask import render_template
 
-from . import logger
+from . import create_logger
 
 
-log = logger.create(__name__)
+log = create_logger(__name__)
 
 
 def not_found(error):
