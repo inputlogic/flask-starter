@@ -28,8 +28,9 @@ class User(UserMixin, db.Document):
         return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     @staticmethod
-    def register(email, password):
-        user = User(email=email, password=User.hash_password(password))
+    def register(**kwargs):
+        kwargs['password'] = User.hash_password(kwargs['password'])
+        user = User(**kwargs)
         user.save()
         return user
 

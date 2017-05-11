@@ -18,6 +18,8 @@ def register():
     if form.validate_on_submit():
         try:
             user = User.register(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
                 email=form.email.data,
                 password=form.password.data)
             login_user(user)
