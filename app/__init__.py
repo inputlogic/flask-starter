@@ -11,10 +11,9 @@ def create_app():
     app.config.from_object(config)
 
     setup_logging(app)
+    load_extensions(app)
     load_models(app)
     load_blueprints(app)
-    load_errorhandlers(app)
-    load_utils(app)
 
     return app
 
@@ -57,6 +56,21 @@ def setup_logging(app):
                     response.status,
                     response.mimetype))
                 return response
+
+
+def load_extensions(app):
+    """
+    Dynamicaly load "extensions" specified in the `EXTENSIONS` config tuple.
+
+    An extension doesn't have to be a Flask specific extension. Its basically
+    any module that needs to be loaded at run time and given an `app` instance
+    via a `setup` function.
+
+    """
+    for name in config.EXTENSIONS:
+        module = importlib.import_module('app.extensions.{0}'.format(name))
+        if hasattr(module, 'setup'):
+            module.setup(app)
 
 
 def load_models(app):
@@ -106,30 +120,3 @@ def load_blueprints(app):
 
         view = importlib.import_module('app.views.{0}'.format(name))
         app.register_blueprint(view.bp, **kwargs)
-
-
-def load_errorhandlers(app):
-    """
-    Load view error handlers for 404, 500 and uncaught exceptions.
-
-    """
-    from .views.errors import not_found, server_error, unhandled_exception
-    app.errorhandler(404)(not_found)
-    app.errorhandler(500)(server_error)
-
-    # Only hide exceptions in production
-    if config.ENV == config.PRODUCTION:
-        app.errorhandler(Exception)(unhandled_exception)
-
-
-def load_utils(app):
-    """
-    Load misc utils and Flask extensions.
-
-    """
-    from .libs.auth import lm
-    lm.init_app(app)
-
-    if config.ENV == config.LOCAL:
-        from flask_debugtoolbar import DebugToolbarExtension
-        DebugToolbarExtension(app)

@@ -15,6 +15,9 @@ LOG_RESPONSE_STATUS = False
 # Will match anything that *starts with* the given string
 LOG_REQUESTS_IGNORE = ('/_debug_toolbar',)
 
+# Extensions (modules) to be loaded at run time and given an `app` instance
+EXTENSIONS = ('debugtoolbar', 'errors', 'filters', 'login')
+
 # Models to be loaded, in the order specified
 MODELS = ('user', 'post')
 
