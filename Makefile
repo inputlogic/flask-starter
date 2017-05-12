@@ -2,6 +2,8 @@ export FLASK_DEBUG=1
 export FLASK_ENV=local
 export FLASK_APP=run.py
 
+.PHONY: clean setup run test lint quality
+
 clean:
 	find app -iname '*.pyc' -exec rm {} \;
 	find config -iname '*.pyc' -exec rm {} \;

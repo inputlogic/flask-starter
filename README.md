@@ -59,14 +59,11 @@ Structure
 ---------
 - `app/` Flask project root
 - `app/forms/` Form definitions for WTForm
-- `app/libs/` General helper modules
-- `app/libs/auth.py` Authentication settings for Flask-Login extension
-- `app/libs/filters.py` Custom filters for Jinja templates
+- `app/extensions/` Modules for automatically setting up extensions at run time
 - `app/models/` MongoEngine models
 - `app/static/` Static assets such as CSS, JS etc.
 - `app/templates/` Jinja HTML templates
 - `app/views/` Flask Blueprints (routes)
-- `app/views/errors.py` Flask error handlers for 404, 500 and exceptions
 - `app/__init__.py` Flask app entry point
 - `config/` All configs here
 - `config/common.py` Configs to be used across all environments
