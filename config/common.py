@@ -16,11 +16,11 @@ LOG_RESPONSE_STATUS = False
 LOG_REQUESTS_IGNORE = ('/_debug_toolbar',)
 
 # Extensions (modules) to be loaded at run time and given an `app` instance
-EXTENSIONS = ('debugtoolbar', 'errors', 'filters', 'login', 'overlord')
+EXTENSIONS = ('debugtoolbar', 'errors', 'filters', 'login')
 
 # Models to be loaded, in the order specified
 MODELS = ('user', 'post')
 
 # View blueprints to be loaded, in the order specified
 # See `load_blueprints` in `app/__init__.py` for more details
-BLUEPRINTS = ('main', 'user')
+BLUEPRINTS = ('main', 'user', {'name': 'admin', 'url_prefix': '/admin'})
