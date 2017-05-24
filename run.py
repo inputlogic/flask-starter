@@ -8,5 +8,4 @@ app = create_app()
 #
 # Example: python run.py
 if __name__ == '__main__':
-    print('running from main')
     app.run()

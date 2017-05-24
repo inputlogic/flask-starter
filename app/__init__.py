@@ -6,16 +6,20 @@ from flask import Flask, request
 import config
 
 
+def app():
+    if not hasattr(app, 'instance'):
+        app.instance = Flask(__name__)
+        app.instance.config.from_object(config)
+    return app.instance
+
+
 def create_app():
-    app = Flask(__name__)
-    app.config.from_object(config)
-
-    setup_logging(app)
-    load_extensions(app)
-    load_models(app)
-    load_blueprints(app)
-
-    return app
+    instance = app()
+    setup_logging(instance)
+    load_models(instance)
+    load_blueprints(instance)
+    load_extensions(instance)
+    return instance
 
 
 def create_logger(name, format=None):
@@ -56,21 +60,6 @@ def setup_logging(app):
                     response.status,
                     response.mimetype))
                 return response
-
-
-def load_extensions(app):
-    """
-    Dynamicaly load "extensions" specified in the `EXTENSIONS` config tuple.
-
-    An extension doesn't have to be a Flask specific extension. Its basically
-    any module that needs to be loaded at run time and given an `app` instance
-    via a `setup` function.
-
-    """
-    for name in config.EXTENSIONS:
-        module = importlib.import_module('app.extensions.{0}'.format(name))
-        if hasattr(module, 'setup'):
-            module.setup(app)
 
 
 def load_models(app):
@@ -120,3 +109,18 @@ def load_blueprints(app):
 
         view = importlib.import_module('app.views.{0}'.format(name))
         app.register_blueprint(view.bp, **kwargs)
+
+
+def load_extensions(app):
+    """
+    Dynamicaly load "extensions" specified in the `EXTENSIONS` config tuple.
+
+    An extension doesn't have to be a Flask specific extension. Its basically
+    any module that needs to be loaded at run time and given an `app` instance
+    via a `setup` function.
+
+    """
+    for name in config.EXTENSIONS:
+        module = importlib.import_module('app.extensions.{0}'.format(name))
+        if hasattr(module, 'setup'):
+            module.setup(app)
