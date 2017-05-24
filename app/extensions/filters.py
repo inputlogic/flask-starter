@@ -1,6 +1,6 @@
 def setup(app):
-    # Example
-    # {{ 'hello'|reverse }} -> olleh
-    @app.template_filter()
-    def reverse(text):
-        return text[::-1]
+    app.add_template_filter(reverse)
+
+    
+def reverse(text):
+    return text[::-1]
