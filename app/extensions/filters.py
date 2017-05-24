@@ -1,9 +1,6 @@
-from .. import app
+def setup(app):
+    app.add_template_filter(reverse)
 
 
-handler = app()
-
-
-@handler.template_filter()
 def reverse(text):
     return text[::-1]

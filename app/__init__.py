@@ -6,20 +6,14 @@ from flask import Flask, request
 import config
 
 
-def app():
-    if not hasattr(app, 'instance'):
-        app.instance = Flask(__name__)
-        app.instance.config.from_object(config)
-    return app.instance
-
-
 def create_app():
-    instance = app()
-    setup_logging(instance)
-    load_models(instance)
-    load_blueprints(instance)
-    load_extensions(instance)
-    return instance
+    app = Flask(__name__)
+    app.config.from_object(config)
+    setup_logging(app)
+    load_models(app)
+    load_blueprints(app)
+    load_extensions(app)
+    return app
 
 
 def create_logger(name, format=None):
@@ -36,7 +30,7 @@ def create_logger(name, format=None):
 
 
 def setup_logging(app):
-    # Quite down Flask/Werkzeug
+    # Quiet down Flask/Werkzeug
     logging.getLogger('werkzeug').disabled = True
     app.logger.disabled = True
 
