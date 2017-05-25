@@ -9,14 +9,14 @@ bp = Blueprint('admin', __name__)
 
 
 @bp.route('')
-@login_required
+# @login_required
 def posts():
     posts = Post.objects.all()
     return render_template('admin/index.html', posts=posts)
 
 
 @bp.route('/new', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def new_post():
     form = PostForm()
 
@@ -36,7 +36,7 @@ def new_post():
 
 
 @bp.route('/edit/<id>', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def edit_post(id):
     post = Post.objects.get(pk=id)
     form = PostForm(obj=post)
@@ -55,7 +55,7 @@ def edit_post(id):
 
 
 @bp.route('/delete/<id>')
-@login_required
+# @login_required
 def delete_post(id):
     Post.objects(id=id).delete()
     flash('Post deleted', 'success')
