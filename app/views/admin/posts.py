@@ -1,26 +1,18 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
-from flask_login import current_user, login_required
+from flask import render_template
 
-from ..forms.post import PostForm
-from ..models.post import Post
+from app.forms.post import PostForm
+from app.models.post import Post
 
-
-bp = Blueprint('admin', __name__)
-
-@bp.route('/login')
-def login():
-    return render_template('admin/login.html')
+from . import bp
 
 
 @bp.route('')
-# @login_required
-def posts():
+def manage_posts():
     posts = Post.objects.all()
     return render_template('admin/index.html', posts=posts)
 
 
 @bp.route('/new', methods=['GET', 'POST'])
-# @login_required
 def new_post():
     form = PostForm()
 
@@ -40,7 +32,6 @@ def new_post():
 
 
 @bp.route('/edit/<id>', methods=['GET', 'POST'])
-# @login_required
 def edit_post(id):
     post = Post.objects.get(pk=id)
     form = PostForm(obj=post)
@@ -59,7 +50,6 @@ def edit_post(id):
 
 
 @bp.route('/delete/<id>')
-# @login_required
 def delete_post(id):
     Post.objects(id=id).delete()
     flash('Post deleted', 'success')

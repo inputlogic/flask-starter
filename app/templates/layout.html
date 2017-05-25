@@ -10,13 +10,13 @@
 
     <title>{% block title %}Home{% endblock %} - Flask Starter</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <script src="{{ url_for('static', filename='js/html5shiv.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
     <![endif]-->
   </head>
   <body>
@@ -24,17 +24,14 @@
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li><a href="{{ url_for('main.index')}}">Posts</a></li>
             {% if current_user.is_authenticated %}
               <li><a href="{{ url_for('admin.posts') }}">Admin</a></li>
-              <li><a href="{{ url_for('user.logout') }}">Logout</a></li>
             {% else %}
-              <li><a href="{{ url_for('user.register') }}">Register</a></li>
-              <li><a href="{{ url_for('user.login') }}">Login</a></li>
+              <li><a href="{{ url_for('admin.login') }}">Login</a></li>
             {% endif %}
           </ul>
         </nav>
-        <h3 class="text-muted">Flask Starter</h3>
+        <h3 class="text-muted"><a href="{{ url_for('main.index') }}">Flask Starter</a></h3>
       </div>
 
       {% with messages = get_flashed_messages(with_categories=True) %}
@@ -54,6 +51,6 @@
       </footer>
     </div> <!-- /container -->
 
-    <script src="{{ url_for('static', filename='bootstrap.main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.main.js') }}"></script>
   </body>
 </html>
