@@ -7,6 +7,10 @@ from ..models.post import Post
 
 bp = Blueprint('admin', __name__)
 
+@bp.route('/login')
+def login():
+    return render_template('admin/login.html')
+
 
 @bp.route('')
 # @login_required
