@@ -22,3 +22,12 @@ lint:
 	flake8 --statistics app
 
 quality: test lint
+
+# Scripts
+# Must be in the form of modules so we can import other areas of the app
+
+resetdb:
+	python -m scripts.resetdb
+
+superuser:
+	python -m scripts.superuser

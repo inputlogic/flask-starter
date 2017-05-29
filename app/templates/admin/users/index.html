@@ -1,0 +1,45 @@
+{% extends 'admin/layout.html' %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-title pull-left">Manage Users</div>
+    <a href="#" class="btn btn-primary btn-embossed pull-right">Create User</a>
+  </div>
+</div>
+
+<hr />
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+            <td>{{ user.email }}</td>
+            <td class="text-right">
+              <a href="{{ url_for('admin.edit_user', id=user.id) }}">
+                <i class="glyphicon glyphicon-pencil"></i>
+              </a>&nbsp;
+              <a href="{{ url_for('admin.delete_user', id=user.id) }}">
+                <i class="glyphicon glyphicon-trash"></i>
+              </a>
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="3"><em>No users</em></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

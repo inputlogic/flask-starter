@@ -1,5 +1,8 @@
-from flask import redirect, render_template, request, url_for
-from flask_login import current_user
+from flask import flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_user, logout_user
+
+from app.forms.user import UserForm
+from app.models.user import User
 
 from . import bp
 
@@ -12,17 +15,34 @@ def authenticate():
     if request.path in ignored_paths:
         return None
 
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and current_user.is_admin:
         return None
 
     return redirect(url_for('.login'))
 
 
-@bp.route('/login')
+@bp.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('admin/login.html')
+    form = UserForm()
+
+    if form.validate_on_submit():
+        try:
+            user = User.validate_login(
+                email=form.email.data,
+                password=form.password.data)
+            if user.is_admin:
+                login_user(user)
+                return redirect(url_for('admin.manage_users'))
+        except User.DoesNotExist: pass
+        form._errors = True
+
+    if form.errors:
+        flash('Invalid login details', 'warning')
+
+    return render_template('admin/login.html', form=form)
 
 
 @bp.route('/logout')
 def logout():
-    pass
+    logout_user()
+    return redirect(url_for('.login'))

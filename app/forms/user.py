@@ -9,4 +9,4 @@ class UserForm(FlaskForm):
     email = StringField(
         'email', validators=(DataRequired(), Email()))
     password = PasswordField(
-        'password', validators=(DataRequired(), Length(min=6)))
+        'password', validators=(DataRequired(), Length(min=4)))
