@@ -18,23 +18,38 @@ def manage_users():
 
 @bp.route('/users/create', methods=['GET', 'POST'])
 def create_user():
-    return render_template('admin/users/create.html')
+    form = UserForm()
+    form_url = url_for('.create_user')
+
+    if form.validate_on_submit():
+        user = User()
+        form.populate_obj(user)
+        user.save()
+        flash('User created', 'success')
+        return redirect(url_for('.manage_users'))
+
+    return render_template(
+        'admin/users/form.html',
+        form=form,
+        form_url=form_url)
 
 
 @bp.route('/users/<id>', methods=['GET', 'POST'])
 def edit_user(id):
     user = User.objects.get_or_404(pk=id)
     form = UserForm(obj=user)
+    form_url = url_for('.edit_user', id=id)
 
     if form.validate_on_submit():
-        log.debug('saving user')
         form.populate_obj(user)
         user.save()
         flash('User updated', 'success')
-    else:
-        log.debug(form.errors)
 
-    return render_template('admin/users/edit.html', user=user, form=form)
+    return render_template(
+        'admin/users/form.html',
+        user=user,
+        form=form,
+        form_url=form_url)
 
 
 @bp.route('/users/<id>/delete', methods=['GET', 'POST'])

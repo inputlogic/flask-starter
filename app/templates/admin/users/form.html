@@ -3,8 +3,8 @@
 
 <div class="row">
   <div class="col-md-12">
-    <div class="page-title pull-left">Edit User</div>
-    <a href="#" class="btn btn-sm btn-default btn-embossed pull-right">Create User</a>
+    <div class="page-title pull-left">{% if user %}Edit{% else %}Create{% endif %} User</div>
+    <a href="{{ url_for('admin.create_user')}}" class="btn btn-sm btn-default btn-embossed pull-right">Create User</a>
   </div>
 </div>
 
@@ -12,7 +12,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <form method="post" action="{{ url_for('admin.edit_user', id=user.id) }}">
+    <form method="post" action="{{ form_url }}">
       {{ form.csrf_token }}
       <div class="row">
         <div class="col-md-6">
@@ -48,7 +48,9 @@
           </label>
       </div>
       <button type="submit" class="btn btn-primary btn-embossed">Save</button>&nbsp;&nbsp;
-      <a href="{{ url_for('admin.delete_user', id=user.id) }}" class="btn btn-danger btn-embossed">Delete</a>
+      {% if user %}
+        <a href="{{ url_for('admin.delete_user', id=user.id) }}" class="btn btn-danger btn-embossed">Delete</a>
+      {% endif %}
     </form>
   </div>
 </div>
