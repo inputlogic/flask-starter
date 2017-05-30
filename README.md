@@ -38,6 +38,12 @@ $(env) make setup
 $(env) make run
 ```
 
+An admin user can be created with:
+
+```
+make superuser
+```
+
 
 Models
 ------

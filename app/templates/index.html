@@ -10,7 +10,7 @@
         <p>{{ post.body }}</p>
       {% endfor %}
     {% else %}
-      <p>You don't have any posts yet! <a href="#">Login</a> and create some!</p>
+      <p>You don't have any posts yet! <a href="{{ url_for('admin.login') }}">Login</a> and create some!</p>
     {% endif %}
   </div>
 </div>
