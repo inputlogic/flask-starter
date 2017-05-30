@@ -1,0 +1,24 @@
+{% extends 'admin/layout.html' %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-title pull-left">Delete User</div>
+    <a href="#" class="btn btn-sm btn-default btn-embossed pull-right">Create User</a>
+  </div>
+</div>
+
+<hr />
+
+<div class="row">
+  <div class="col-md-6">
+    <form method="post" action="{{ url_for('admin.delete_user', id=user.id) }}">
+      <p>Are you sure you want to delete <em>{{ user.first_name }} {{ user.last_name }}</em>?</p>
+      <input type="hidden" name="confirm" value="y" />
+      <button type="submit" class="btn btn-danger btn-embossed">Yes, Delete</button>&nbsp;&nbsp;
+      <a href="{{ url_for('admin.manage_users') }}" class="btn btn-default btn-embossed">No, Cancel</a>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

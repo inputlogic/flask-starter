@@ -3,35 +3,52 @@
 
 <div class="row">
   <div class="col-md-12">
-    <div class="page-title pull-left">Manage Users</div>
-    <a href="#" class="btn btn-primary btn-embossed pull-right">Create User</a>
+    <div class="page-title pull-left">Edit User</div>
+    <a href="#" class="btn btn-sm btn-default btn-embossed pull-right">Create User</a>
   </div>
 </div>
 
 <hr />
 
 <div class="row">
-  <div class="col-md-12">
-    <form>
-      <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+  <div class="col-md-6">
+    <form method="post" action="{{ url_for('admin.edit_user', id=user.id) }}">
+      {{ form.csrf_token }}
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group {% if form.first_name.errors %}has-error{% endif %}">
+            {{ form.first_name.label }}
+            {{ form.first_name(class='form-control') }}
+            {% if form.first_name.errors %}
+              <span class="help-block">{{ form.first_name.errors[0] }}</span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group {% if form.last_name.errors %}has-error{% endif %}">
+            {{ form.last_name.label }}
+            {{ form.last_name(class='form-control') }}
+            {% if form.last_name.errors %}
+              <span class="help-block">{{ form.last_name.errors[0] }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+        {{ form.email.label }}
+        {{ form.email(class='form-control') }}
+        {% if form.email.errors %}
+          <span class="help-block">{{ form.email.errors[0] }}</span>
+        {% endif %}
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <label class="checkbox">
+            {{ form.is_admin(data_toggle="checkbox") }}
+            {{ form.is_admin.label.text }}
+          </label>
       </div>
-      <div class="form-group">
-        <label for="exampleInputFile">File input</label>
-        <input type="file" id="exampleInputFile">
-        <p class="help-block">Example block-level help text here.</p>
-      </div>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox"> Check me out
-        </label>
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
+      <button type="submit" class="btn btn-primary btn-embossed">Save</button>&nbsp;&nbsp;
+      <a href="{{ url_for('admin.delete_user', id=user.id) }}" class="btn btn-danger btn-embossed">Delete</a>
     </form>
   </div>
 </div>

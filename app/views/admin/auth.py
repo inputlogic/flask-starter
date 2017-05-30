@@ -1,7 +1,7 @@
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 
-from app.forms.user import UserForm
+from app.forms.user import AuthForm
 from app.models.user import User
 
 from . import bp
@@ -23,7 +23,7 @@ def authenticate():
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
-    form = UserForm()
+    form = AuthForm()
 
     if form.validate_on_submit():
         try:

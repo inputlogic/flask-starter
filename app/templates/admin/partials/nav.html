@@ -8,11 +8,11 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse-01">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#fakelink">Users</a></li>
-        <li><a href="#fakelink">Posts</a></li>
+        <li class="active"><a href="{{ url_for('admin.manage_users') }}">Users</a></li>
+        <li><a href="#">Posts</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#fakelink">Logout</a></li>
+        <li><a href="{{ url_for('admin.logout') }}">Logout</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div>

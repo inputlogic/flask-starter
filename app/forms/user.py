@@ -1,12 +1,18 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
+from wtforms import BooleanField, StringField, PasswordField
 from wtforms.validators import DataRequired, Length, Email
 
 
-class UserForm(FlaskForm):
-    first_name = StringField('first_name')
-    last_name = StringField('last_name')
+class AuthForm(FlaskForm):
     email = StringField(
-        'email', validators=(DataRequired(), Email()))
+        'Email', validators=(DataRequired(), Email()))
     password = PasswordField(
         'password', validators=(DataRequired(), Length(min=4)))
+
+
+class UserForm(FlaskForm):
+    first_name = StringField('First name', validators=(DataRequired(),))
+    last_name = StringField('Last name', validators=(DataRequired(),))
+    email = StringField(
+        'Email', validators=(DataRequired(), Email()))
+    is_admin = BooleanField('Is admin?')
