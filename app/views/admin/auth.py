@@ -33,7 +33,8 @@ def login():
             if user.is_admin:
                 login_user(user)
                 return redirect(url_for('admin.manage_users'))
-        except User.DoesNotExist: pass
+        except User.DoesNotExist:
+            pass
         form._errors = True
 
     if form.errors:

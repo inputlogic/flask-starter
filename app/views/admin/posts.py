@@ -1,4 +1,5 @@
-from flask import render_template
+from flask import flash, redirect, render_template, url_for
+from flask_login import current_user
 
 from app.forms.post import PostForm
 from app.models.post import Post
