@@ -1,5 +1,7 @@
 language: python
 python: "3.6"
-script: make setup
+install:
+  - pip install -r requirements.txt
+  - pip install -r requirements.local.txt
 script: make quality
 services: mongodb
