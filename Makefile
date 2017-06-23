@@ -13,6 +13,7 @@ setup:
 	pip install -r requirements.local.txt
 
 run: clean
+	brew services start mongodb
 	flask run
 
 test:
