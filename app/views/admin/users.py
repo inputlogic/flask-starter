@@ -1,14 +1,11 @@
 from flask import flash, redirect, render_template, request, url_for, jsonify
 from flask_login import current_user
-from uuid import uuid4
-import boto3
 
 from app.libs.s3 import signed_url
 from . import bp
 from app import create_logger
 from app.forms.user import UserForm
 from app.models.user import User
-import config
 
 
 log = create_logger(__name__)

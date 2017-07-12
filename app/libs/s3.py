@@ -2,6 +2,7 @@ from uuid import uuid4
 import boto3
 import config
 
+
 def signed_url(
     file_name=uuid4().hex,
     file_type='jpeg',
