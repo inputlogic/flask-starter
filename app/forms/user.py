@@ -15,4 +15,6 @@ class UserForm(FlaskForm):
     last_name = StringField('Last name', validators=(DataRequired(),))
     email = StringField(
         'Email', validators=(DataRequired(), Email()))
+    password = PasswordField(
+        'Password', validators=(DataRequired(), Length(min=4)))
     is_admin = BooleanField('Is admin?')

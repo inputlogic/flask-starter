@@ -23,7 +23,10 @@ def create_user():
 
     if form.validate_on_submit():
         user = User()
-        form.populate_obj(user)
+        user = User.register(
+                email=form.email.data,
+                password=form.password.data,
+                is_admin=form.is_admin.data)
         user.save()
         flash('User created', 'success')
         return redirect(url_for('.manage_users'))
