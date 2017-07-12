@@ -2,6 +2,7 @@
 *.swp
 *.db
 .DS_Store
+.env
 
 env
 __pycache__

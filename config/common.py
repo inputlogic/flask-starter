@@ -1,3 +1,5 @@
+import os
+
 # Disable Flask logger
 LOGGER_NAME = None
 LOGGER_HANDLER_POLICY = 'never'
@@ -25,3 +27,9 @@ MODELS = ('user', 'post')
 # View blueprints to be loaded, in the order specified
 # See `load_blueprints` in `app/__init__.py` for more details
 BLUEPRINTS = ('main', {'name': 'admin', 'url_prefix': '/admin'})
+
+# S3
+S3_KEY = os.environ.get('S3_KEY')
+S3_SECRET = os.environ.get('S3_SECRET')
+S3_BUCKET = os.environ.get('S3_BUCKET')
+S3_UPLOAD_DIRECTORY = os.environ.get('S3_UPLOAD_DIRECTORY')

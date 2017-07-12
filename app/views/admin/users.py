@@ -1,10 +1,14 @@
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, request, url_for, jsonify
 from flask_login import current_user
+from uuid import uuid4
+import boto3
 
+from app.libs.s3 import signed_url
 from . import bp
 from app import create_logger
 from app.forms.user import UserForm
 from app.models.user import User
+import config
 
 
 log = create_logger(__name__)
@@ -14,6 +18,16 @@ log = create_logger(__name__)
 def manage_users():
     users = User.objects.all()
     return render_template('admin/users/index.html', users=users)
+
+
+@bp.route('/sign_s3')
+def sign_s3():
+    signed = signed_url()
+    return jsonify({
+        'data': signed['data'],
+        'url': signed['url'],
+        'ok': True
+    })
 
 
 @bp.route('/users/create', methods=['GET', 'POST'])

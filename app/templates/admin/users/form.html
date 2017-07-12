@@ -1,3 +1,4 @@
+{% import 'components.html' as components %}
 {% extends 'admin/layout.html' %}
 {% block content %}
 
@@ -12,7 +13,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <form method="post" action="{{ form_url }}">
+    <form method="post" action="{{ form_url }}" >
       {{ form.csrf_token }}
       <div class="row">
         <div class="col-md-6">
@@ -41,6 +42,20 @@
           <span class="help-block">{{ form.email.errors[0] }}</span>
         {% endif %}
       </div>
+      <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+        {{ form.password.label }}
+        {{ form.password(class='form-control') }}
+        {% if form.password.errors %}
+          <span class="help-block">{{ form.password.errors[0] }}</span>
+        {% endif %}
+      </div>
+      <div class="form-group">
+        {{ form.avatar(id='avatar-url') }}
+        {{ form.avatar.label }}
+        {# Note, no name on file input #}
+        <input type='file' id='file-input' />
+        <img src='{{ form.avatar.data }}' id='preview' />
+      </div>
       <div class="form-group">
           <label class="checkbox">
             {{ form.is_admin(data_toggle="checkbox") }}
@@ -54,5 +69,7 @@
     </form>
   </div>
 </div>
+
+{{ components.file_upload('file-input', 'avatar-url', 'preview') }}
 
 {% endblock %}
