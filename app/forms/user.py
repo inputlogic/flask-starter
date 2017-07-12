@@ -18,7 +18,6 @@ class AuthForm(FlaskForm):
 class UserForm(FlaskForm):
     first_name = StringField('First name', validators=(DataRequired(),))
     last_name = StringField('Last name', validators=(DataRequired(),))
-    password = PasswordField('Password', validators=(DataRequired(),))
     avatar = HiddenField('Avatar')
     email = StringField(
         'Email', validators=(DataRequired(), Email()))

@@ -1,4 +1,4 @@
-{% import 'components.html' as components %}
+{% import 'components/file_upload.html' as file_upload %}
 {% extends 'admin/layout.html' %}
 {% block content %}
 
@@ -42,13 +42,6 @@
           <span class="help-block">{{ form.email.errors[0] }}</span>
         {% endif %}
       </div>
-      <div class="form-group {% if form.password.errors %}has-error{% endif %}">
-        {{ form.password.label }}
-        {{ form.password(class='form-control') }}
-        {% if form.password.errors %}
-          <span class="help-block">{{ form.password.errors[0] }}</span>
-        {% endif %}
-      </div>
       <div class="form-group">
         {{ form.avatar(id='avatar-url') }}
         {{ form.avatar.label }}
@@ -70,6 +63,6 @@
   </div>
 </div>
 
-{{ components.file_upload('file-input', 'avatar-url', 'preview') }}
+{{ file_upload.js('file-input', 'avatar-url', 'preview') }}
 
 {% endblock %}
