@@ -14,6 +14,29 @@ def signed_url(
     expires_in=3600,
     permissions='public-read'
 ):
+    '''Get a signed url for posting a file to s3.
+
+    Defaults to use config values:
+        S3_UPLOAD_DIRECTORY
+        S3_BUCKET
+        S3_KEY
+        S3_SECRET
+
+    Returns a dict:
+        result = {
+            'data': dict
+            'url': string
+        }
+
+    To upload a file:
+        - send a post request to result['url']
+        - include the following form data:
+            - 'file': the file from the file html input
+            - each key/value in result['data']['fields']
+
+    reference:
+        https://devcenter.heroku.com/articles/s3-upload-python
+    '''
     destination_name = '{}/{}.{}'.format(directory, file_name, file_type)
     s3 = boto3.client(
         's3',
