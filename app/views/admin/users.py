@@ -3,7 +3,7 @@ from flask_login import current_user
 
 from . import bp
 from app import create_logger
-from app.forms.user import UserForm
+from app.forms.user import UserForm, CreateUserForm
 from app.models.user import User
 
 
@@ -18,12 +18,14 @@ def manage_users():
 
 @bp.route('/users/create', methods=['GET', 'POST'])
 def create_user():
-    form = UserForm()
+    form = CreateUserForm()
     form_url = url_for('.create_user')
 
     if form.validate_on_submit():
         user = User()
         user = User.register(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
                 email=form.email.data,
                 password=form.password.data,
                 is_admin=form.is_admin.data)
