@@ -1,3 +1,5 @@
+import os
+
 # Disable Flask logger
 LOGGER_NAME = None
 LOGGER_HANDLER_POLICY = 'never'
@@ -25,3 +27,6 @@ MODELS = ('user', 'post')
 # View blueprints to be loaded, in the order specified
 # See `load_blueprints` in `app/__init__.py` for more details
 BLUEPRINTS = ('main', {'name': 'admin', 'url_prefix': '/admin'})
+
+# forgot password
+FORGOT_PASSWORD_TIMER = 3600
