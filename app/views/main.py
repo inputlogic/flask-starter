@@ -1,9 +1,7 @@
-from flask import Blueprint, render_template
+from flask import render_template
 
-from ..models.post import Post
-
-
-bp = Blueprint('main', __name__)
+from app.models.post import Post
+from . import bp
 
 
 @bp.route('/')

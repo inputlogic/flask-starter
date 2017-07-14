@@ -7,7 +7,7 @@ class AuthForm(FlaskForm):
     email = StringField(
         'Email', validators=(DataRequired(), Email()))
     password = PasswordField(
-        'password', validators=(DataRequired(), Length(min=4)))
+        'Password', validators=(DataRequired(), Length(min=4)))
 
 
 class UserForm(FlaskForm):
