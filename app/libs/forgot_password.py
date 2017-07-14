@@ -1,5 +1,3 @@
-from itsdangerous import URLSafeTimedSerializer, BadSignature
-import config
 from uuid import uuid4
 from app.models.user import User
 from app.models.forgot_password_token import ForgotPasswordToken

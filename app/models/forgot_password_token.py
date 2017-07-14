@@ -21,7 +21,7 @@ class ForgotPasswordToken(db.Document):
         token.delete()
         if token.__verify_token(token_string):
             return token.user
-        raise Token.DoesNotExist
+        raise ForgotPasswordToken.DoesNotExist
 
     def __repr__(self):
         return '<ForgotPasswordToken: {0}>'.format(self.id)

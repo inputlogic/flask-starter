@@ -11,6 +11,7 @@ from app.libs.forgot_password import (
 )
 from . import bp
 
+
 @bp.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
     form = ForgotPasswordForm()
