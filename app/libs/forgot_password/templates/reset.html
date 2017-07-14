@@ -4,7 +4,7 @@
 
 <div class="row">
   <div class="col-lg-offset-3 col-lg-6">
-    <form method="post" action="{{ url_for('main.reset_password', token=token) }}">
+    <form method="post" action="{{ url_for('forgot_password.reset_password', token=token) }}">
       {{ form.csrf_token }}
       <div class="form-group {% if form.new_password.errors %}has-error{% endif %}">
         {{ form.new_password(class="form-control", placeholder="New Password") }}

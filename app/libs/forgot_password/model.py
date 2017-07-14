@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 import bcrypt
 
+from app.models import db
 import config
-from . import db
 
 
 class ForgotPasswordToken(db.Document):

@@ -9,4 +9,3 @@ if not bp:
     bp = Blueprint('main', __name__)
 
     from . import main
-    from . import forgot_password

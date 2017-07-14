@@ -1,15 +1,22 @@
-from flask import flash, render_template, redirect, url_for
+from flask import (
+    Blueprint,
+    flash,
+    render_template,
+    redirect,
+    url_for
+)
 from app.models.user import User
-from app.forms.forgot_password import (
+from .forms import (
     ForgotPasswordForm,
     ResetPasswordForm
 )
-from app.libs.forgot_password import (
+from . import (
     forgot_password as forgot_password_util,
     decode,
     InvalidTokenException
 )
-from . import bp
+
+bp = Blueprint('forgot_password', __name__, template_folder='templates')
 
 
 @bp.route('/forgot-password', methods=['GET', 'POST'])
@@ -23,7 +30,7 @@ def forgot_password():
             sender=__sender)
 
     return render_template(
-        'forgot_password/forgot.html',
+        'forgot.html',
         form=form
     )
 
@@ -45,7 +52,7 @@ def reset_password(token):
             return redirect(url_for('main.index'))
 
     return render_template(
-        'forgot_password/reset.html',
+        'reset.html',
         form=form,
         token=token
     )

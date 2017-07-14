@@ -99,12 +99,17 @@ def load_blueprints(app):
             {
                 name: 'advanced',
                 url_prefix: '/advanced'
+            },
+            {
+                name: 'forgot_password',
+                path: 'app.libs.forgot_password.views'
             }
         )
 
     In the above example, the "basic" Blueprint will be loaded with no
     additional settings. The second example will load the "advanced" Blueprint
-    with the `url_prefix` set to "/advanced".
+    with the `url_prefix` set to "/advanced". The third example will
+    load the "forgot_password" Blueprint from `path`
 
     All `Blueprint` kwargs are supported in the advanced version.
 
@@ -113,10 +118,15 @@ def load_blueprints(app):
         if isinstance(blueprint, str):
             name = blueprint
             kwargs = {}
+	    path = None
         else:
             args = blueprint.copy()
             name = args.pop('name')
+            path = args.pop('path') if args.get('path') else None
             kwargs = args
 
-        view = importlib.import_module('app.views.{0}'.format(name))
+        if not path:
+            view = importlib.import_module('app.views.{0}'.format(name))
+        else:
+            view = importlib.import_module(path)
         app.register_blueprint(view.bp, **kwargs)
