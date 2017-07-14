@@ -118,7 +118,7 @@ def load_blueprints(app):
         if isinstance(blueprint, str):
             name = blueprint
             kwargs = {}
-	    path = None
+            path = None
         else:
             args = blueprint.copy()
             name = args.pop('name')
