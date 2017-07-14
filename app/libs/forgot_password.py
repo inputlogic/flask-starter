@@ -8,8 +8,7 @@ class InvalidTokenException(Exception):
 
 
 def decode(token):
-    '''Decode a token created with __generate_token'''
-
+    '''Decode a token generated in forgot_password'''
     [id, token] = token.split('_')
     try:
         return ForgotPasswordToken.validate_and_delete_token(id, token)
@@ -19,7 +18,7 @@ def decode(token):
 
 def forgot_password(email, sender):
     '''Generate a forgot password token and pass it to sender function
-    The sender function should take one argument (the token) and it's
+    The sender function should take two argument (the token and the user) and it's
     expected to send the token to the user with email 'email' via
     email/sms/or other.
     '''
@@ -30,4 +29,4 @@ def forgot_password(email, sender):
         token=token_string
     )
     token.save()
-    sender('{}_{}'.format(token.id, token_string))
+    sender('{}_{}'.format(token.id, token_string), user)

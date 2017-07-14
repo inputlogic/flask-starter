@@ -51,7 +51,7 @@ def reset_password(token):
     )
 
 
-def __sender(token):
+def __sender(token, user):
     raise Exception(
         'Add a sender function to forgot_password_util call \n'
         'Token: {}'.format(token)
