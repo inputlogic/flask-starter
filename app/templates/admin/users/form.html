@@ -1,4 +1,3 @@
-{% import 'components/file_upload.html' as file_upload %}
 {% extends 'admin/layout.html' %}
 {% block content %}
 
@@ -42,11 +41,15 @@
           <span class="help-block">{{ form.email.errors[0] }}</span>
         {% endif %}
       </div>
+
       <div class="form-group">
         {{ form.avatar(id='avatar-url') }}
         {{ form.avatar.label }}
         {# Note, no name on file input #}
-        <input type='file' id='file-input' />
+        <input
+          type='file'
+          onchange='fileUpload(this, "/admin/sign_s3", "avatar-url", "preview")'
+        />
         <img src='{{ form.avatar.data }}' id='preview' />
       </div>
       <div class="form-group">
@@ -62,7 +65,5 @@
     </form>
   </div>
 </div>
-
-{{ file_upload.js('file-input', 'avatar-url', 'preview') }}
 
 {% endblock %}

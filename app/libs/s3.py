@@ -4,7 +4,7 @@ import config
 
 
 def signed_url(
-    file_name=uuid4().hex,
+    file_name=None,
     file_type='jpeg',
     content_type='image/jpeg',
     directory=config.S3_UPLOAD_DIRECTORY,
@@ -29,14 +29,17 @@ def signed_url(
         }
 
     To upload a file:
-        - send a post request to result['url']
+        - send a post request to result['data']['url']
         - include the following form data:
             - 'file': the file from the file html input
             - each key/value in result['data']['fields']
 
+    Once uploaded, the file will be at result['url']
+
     reference:
         https://devcenter.heroku.com/articles/s3-upload-python
     '''
+    file_name = uuid4().hex if file_name is None else file_name
     destination_name = '{0}/{1}.{2}'.format(directory, file_name, file_type)
     s3 = boto3.client(
         's3',
