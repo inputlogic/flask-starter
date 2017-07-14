@@ -18,8 +18,8 @@ def decode(token):
 
 def forgot_password(email, sender):
     '''Generate a forgot password token and pass it to sender function
-    The sender function should take two argument (the token and the user) and it's
-    expected to send the token to the user with email 'email' via
+    The sender function should take two argument (the token and the user)
+    and it's expected to send the token to the user with email 'email' via
     email/sms/or other.
     '''
     user = User.objects.get(email=email)
