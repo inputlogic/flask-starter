@@ -11,7 +11,7 @@ class User(UserMixin, db.Document):
     last_name = db.StringField(max_length=50)
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
-    avatar = db.StringField()
+    avatar = db.URLField()
     is_admin = db.BooleanField(default=False)
     created_at = db.DateTimeField(default=datetime.utcnow)
     updated_at = db.DateTimeField(default=datetime.utcnow)

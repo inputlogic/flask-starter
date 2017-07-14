@@ -37,7 +37,7 @@ def signed_url(
     reference:
         https://devcenter.heroku.com/articles/s3-upload-python
     '''
-    destination_name = '{}/{}.{}'.format(directory, file_name, file_type)
+    destination_name = '{0}/{1}.{2}'.format(directory, file_name, file_type)
     s3 = boto3.client(
         's3',
         aws_access_key_id=key,
