@@ -11,8 +11,8 @@ def create_app():
     app.config.from_object(config)
 
     setup_logging(app)
-    load_extensions(app)
     load_models(app)
+    load_extensions(app)
     load_blueprints(app)
 
     return app
