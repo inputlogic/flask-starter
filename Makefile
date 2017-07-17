@@ -31,3 +31,6 @@ resetdb:
 
 superuser:
 	python -m scripts.superuser
+
+shell:
+	ptpython --interactive=scripts/shell.py
