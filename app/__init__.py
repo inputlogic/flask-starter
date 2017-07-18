@@ -1,8 +1,8 @@
 import importlib
 import logging
-
 from flask import Flask, request
 
+from app.libs.graphene import load as load_graphene
 import config
 
 
@@ -14,6 +14,7 @@ def create_app():
     load_extensions(app)
     load_models(app)
     load_blueprints(app)
+    load_graphene(app)
 
     return app
 
