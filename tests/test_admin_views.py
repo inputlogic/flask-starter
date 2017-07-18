@@ -33,5 +33,7 @@ class TestAdminViews(BaseTestCase):
         ), follow_redirects=True)
 
         self.assertMessageFlashed('User created', 'success')
-        with self.assertEqual(get_user.email, 'user@localhost.local'):
-            get_user = User.objects.get(email='user@localhost.local')
+
+        get_user = User.objects.get(email='user@localhost.local')
+
+        self.assertEqual(get_user.email, 'user@localhost.local')
