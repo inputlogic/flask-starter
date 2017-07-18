@@ -12,7 +12,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <form method="post" action="{{ form_url }}">
+    <form method="post" action="{{ form_url }}" >
       {{ form.csrf_token }}
       <div class="row">
         <div class="col-md-6">
@@ -40,6 +40,25 @@
         {% if form.email.errors %}
           <span class="help-block">{{ form.email.errors[0] }}</span>
         {% endif %}
+      </div>
+      {% if form.password %}
+        <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+          {{ form.password.label }}
+          {{ form.password(class='form-control') }}
+          {% if form.password.errors %}
+            <span class="help-block">{{ form.password.errors[0] }}</span>
+          {% endif %}
+        </div>
+      {% endif %}
+      <div class="form-group">
+        {{ form.avatar(id='avatar-url') }}
+        {{ form.avatar.label }}
+        {# Note, no name on file input #}
+        <input
+          type='file'
+          onchange='fileUpload(this, "/admin/sign_s3", "avatar-url", "preview")'
+        />
+        <img src='{{ form.avatar.data }}' id='preview' />
       </div>
       <div class="form-group">
           <label class="checkbox">

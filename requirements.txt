@@ -4,3 +4,4 @@ flask-login
 flask-mongoengine
 flask-wtf
 gunicorn
+boto3

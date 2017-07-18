@@ -1,9 +1,10 @@
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, request, url_for, jsonify
 from flask_login import current_user
 
+from app.libs.s3 import signed_url
 from . import bp
 from app import create_logger
-from app.forms.user import UserForm
+from app.forms.user import UserForm, CreateUserForm
 from app.models.user import User
 
 
@@ -16,14 +17,29 @@ def manage_users():
     return render_template('admin/users/index.html', users=users)
 
 
+@bp.route('/sign_s3')
+def sign_s3():
+    signed = signed_url()
+    return jsonify({
+        'data': signed['data'],
+        'url': signed['url'],
+        'ok': True
+    })
+
+
 @bp.route('/users/create', methods=['GET', 'POST'])
 def create_user():
-    form = UserForm()
+    form = CreateUserForm()
     form_url = url_for('.create_user')
 
     if form.validate_on_submit():
         user = User()
-        form.populate_obj(user)
+        user = User.register(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                password=form.password.data,
+                is_admin=form.is_admin.data)
         user.save()
         flash('User created', 'success')
         return redirect(url_for('.manage_users'))
