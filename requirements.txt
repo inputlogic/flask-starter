@@ -5,3 +5,4 @@ flask-mongoengine
 flask-wtf
 gunicorn
 boto3
+celery

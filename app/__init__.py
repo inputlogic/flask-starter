@@ -2,6 +2,7 @@ import importlib
 import logging
 
 from flask import Flask, request
+from celery import Celery
 
 import config
 
@@ -11,9 +12,12 @@ def create_app():
     app.config.from_object(config)
 
     setup_logging(app)
+    celery = setup_celery(app)
+
     load_models(app)
     load_extensions(app)
     load_blueprints(app)
+    load_tasks(celery)
 
     return app
 
@@ -56,6 +60,25 @@ def setup_logging(app):
                     response.status,
                     response.mimetype))
                 return response
+
+
+def setup_celery(app):
+    celery = Celery(
+        app.import_name,
+        backend=app.config['CELERY_RESULT_BACKEND'],
+        broker=app.config['CELERY_BROKER_URL'])
+    celery.conf.update(app.config)
+    TaskBase = celery.Task
+
+    class ContextTask(TaskBase):
+        abstract = True
+
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+
+    celery.Task = ContextTask
+    return celery
 
 
 def load_extensions(app):
@@ -120,3 +143,9 @@ def load_blueprints(app):
 
         view = importlib.import_module('app.views.{0}'.format(name))
         app.register_blueprint(view.bp, **kwargs)
+
+
+def load_tasks(celery):
+    tasks.celery = celery
+    for task in config.TASKS:
+        importlib.import_module('app.tasks.{0}'.format(task))
