@@ -6,7 +6,7 @@ from flask_mongoengine import BaseQuerySet
 from flask import url_for
 import math
 
-from .errors import UnprocessableEntity
+from app.libs.errors import UnprocessableEntity
 import config
 
 

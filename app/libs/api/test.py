@@ -1,7 +1,7 @@
 from werkzeug.datastructures import ImmutableMultiDict
 from tests import BaseTestCase
-from app.libs import api
-from .errors import NotFound
+from .. import api
+from app.libs.errors import NotFound
 import config
 
 
