@@ -1,10 +1,7 @@
-from flask import url_for
-from flask_mongoengine import BaseQuerySet
 from werkzeug.datastructures import ImmutableMultiDict
 from tests import BaseTestCase
-from tests.factories import UserFactory
 from app.libs import api
-from .errors import NotFound, Forbidden
+from .errors import NotFound
 import config
 
 

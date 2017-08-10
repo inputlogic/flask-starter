@@ -44,6 +44,7 @@ def error(e):
     '''
     Expects an AppError exception.
     Returns the error following api specification.
+
     '''
     response = {
             'code': e.status_code,
@@ -64,13 +65,15 @@ def _includes(resource, requested_includes, includes):
     url query) to a function that expects the main resource and returns the
     included resources for that name:
     { '<include-name>': resource -> resource(s) }
+
     '''
     requested = set(requested_includes)
     valid = set(includes.keys())
     if not requested <= valid:
         invalid = requested - valid
         raise UnprocessableEntity(
-                'The following includes are not supported: {}'.format(', '.join(invalid)))
+                'The following includes are not supported: {}'.format(
+                    ', '.join(invalid)))
 
     return {k: v(resource) for k, v in includes.items()}
 
@@ -82,7 +85,13 @@ def _serialize(data, serializer, fields=None):
         return serializer(data, fields)
 
 
-def _paginate(resources, url, query_params, page=1, page_size=getattr(config, 'DEFAULT_PAGE_SIZE', 20)):
+def _paginate(
+    resources,
+    url,
+    query_params,
+    page=1,
+    page_size=getattr(config, 'DEFAULT_PAGE_SIZE', 20)
+):
     count = len(resources)
     page_size = config.DEFAULT_PAGE_SIZE if page_size < 1 else page_size
     pages = count / page_size
