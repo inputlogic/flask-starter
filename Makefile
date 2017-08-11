@@ -16,7 +16,7 @@ run: clean
 	flask run
 
 test:
-	FLASK_ENV=test python -m unittest discover -s tests -p "test_*.py"
+	FLASK_ENV=test python -W ignore -m unittest discover -p "test*.py" -f
 
 lint:
 	flake8 --statistics app
