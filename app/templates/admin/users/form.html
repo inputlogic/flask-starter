@@ -50,6 +50,7 @@
           {% endif %}
         </div>
       {% endif %}
+      {% if form.avatar %}
       <div class="form-group">
         {{ form.avatar(id='avatar-url') }}
         {{ form.avatar.label }}
@@ -60,6 +61,7 @@
         />
         <img src='{{ form.avatar.data }}' id='preview' />
       </div>
+      {% endif %}
       <div class="form-group">
           <label class="checkbox">
             {{ form.is_admin(data_toggle="checkbox") }}
