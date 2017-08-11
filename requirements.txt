@@ -5,3 +5,5 @@ flask-mongoengine
 flask-wtf
 gunicorn
 boto3
+Flask-GraphQL
+graphene
